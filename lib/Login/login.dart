@@ -3,6 +3,7 @@ import 'package:gmcweb/CommonUi/blackTextField.dart';
 import 'package:gmcweb/CommonUi/group_button.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
+import 'package:gmcweb/Reports/ReportsPopUps/resolve_popup.dart';
 import 'package:gmcweb/gmcHome.dart';
 
 class Login extends StatefulWidget {
@@ -13,6 +14,14 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
+
+Future openResolvedPopup(context) => showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        child: ResolvePopup(),
+      );
+    });
 
 class _LoginState extends State<Login> {
   final TextEditingController _loginEmailController = TextEditingController();
@@ -133,12 +142,13 @@ class _LoginState extends State<Login> {
                                       buttonText: 'Login',
                                       centerText: true,
                                       onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => GmcHome(),
-                                          ),
-                                        );
+                                        openResolvedPopup(context);
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => GmcHome(),
+                                        //   ),
+                                        // );
                                       })
                                 ],
                               ),
