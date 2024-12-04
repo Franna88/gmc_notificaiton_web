@@ -4,40 +4,20 @@ import 'package:gmcweb/Constants/myutility.dart';
 import 'package:gmcweb/Users/UserTable/ui/tableStructure.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class UserTable extends StatefulWidget {
-  const UserTable({super.key});
+class UserTable extends StatelessWidget {
+  final List<Map<String, String>> users;
 
-  @override
-  State<UserTable> createState() => _UserTableState();
-}
+  const UserTable({super.key, required this.users});
 
-class _UserTableState extends State<UserTable> {
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> users = [
-      {
-        'name': 'James Harmse',
-        'email': 'james@gmail.com',
-        'contactNo': '099 222 333'
-      },
-      {
-        'name': 'James Harmse',
-        'email': 'james@gmail.com',
-        'contactNo': '099 222 333'
-      },
-      {
-        'name': 'James Harmse',
-        'email': 'james@gmail.com',
-        'contactNo': '099 222 333'
-      }
-    ];
-
     return Container(
       height: MyUtility(context).height - 205,
       width: MyUtility(context).width - 340,
       decoration: BoxDecoration(
-          border: Border.all(color: GmcColors().black),
-          color: GmcColors().lightGrey),
+        border: Border.all(color: GmcColors().black),
+        color: GmcColors().lightGrey,
+      ),
       child: Table(
         defaultVerticalAlignment: TableCellVerticalAlignment.middle,
         children: [
@@ -51,9 +31,10 @@ class _UserTableState extends State<UserTable> {
                   child: Text(
                     'Name',
                     style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
@@ -62,9 +43,10 @@ class _UserTableState extends State<UserTable> {
                   child: Text(
                     'Email',
                     style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
@@ -73,9 +55,22 @@ class _UserTableState extends State<UserTable> {
                   child: Text(
                     'Contact No',
                     style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontSize: 20),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              ),
+              TableStructure(
+                child: TableCell(
+                  child: Text(
+                    'Current Password',
+                    style: GoogleFonts.roboto(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
                 ),
               ),
@@ -87,9 +82,7 @@ class _UserTableState extends State<UserTable> {
               final user = users[index];
               return TableRow(
                 decoration: BoxDecoration(
-                  color: index % 2 == 1
-                      ? Colors.white
-                      : Color.fromRGBO(209, 210, 146, 0),
+                  color: index % 2 == 1 ? Colors.grey[200] : Colors.white ,
                   border: Border(
                     bottom: BorderSide(
                       width: 1,
@@ -118,6 +111,14 @@ class _UserTableState extends State<UserTable> {
                     child: TableCell(
                       child: Text(
                         user['contactNo']!,
+                        style: GoogleFonts.roboto(fontSize: 18),
+                      ),
+                    ),
+                  ),
+                  TableStructure(
+                    child: TableCell(
+                      child: Text(
+                        user['password']!,
                         style: GoogleFonts.roboto(fontSize: 18),
                       ),
                     ),

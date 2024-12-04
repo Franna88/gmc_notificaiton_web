@@ -15,16 +15,30 @@ class LinesMain extends StatefulWidget {
 }
 
 class _LinesMainState extends State<LinesMain> {
+  // DUMMY LIST
+  List<LineContainer> lineContainers = [
+    LineContainer(isOffline: true, lineID: 'AG5J85D'),
+    LineContainer(isOffline: false, lineID: 'BG2K24X'),
+  ];
 
-   Future openNewLinePopup() => showDialog(
-      context: context,
-      builder: (context) {
-        return Dialog(
-          child: NewLinePopup(),
-        );
-      });
+  // Dummy Function to add a new line
+  void addNewLine(String lineID) {
+    setState(() {
+      lineContainers.add(LineContainer(isOffline: true, lineID: lineID));
+    });
+  }
 
-
+  // Open the popup
+  Future openNewLinePopup() => showDialog(
+        context: context,
+        builder: (context) {
+          return Dialog(
+            child: NewLinePopup(
+              onAddLine: addNewLine, // Pass the addNewLine function
+            ),
+          );
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +50,9 @@ class _LinesMainState extends State<LinesMain> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
             StackedHeaders(constrianedWidth: 450, width: 445, header: 'Lines'),
-            const SizedBox(
-              height: 30,
-            ),
+            const SizedBox(height: 30),
             Align(
               alignment: Alignment.centerRight,
               child: SmallButtons(
@@ -51,9 +61,7 @@ class _LinesMainState extends State<LinesMain> {
                 buttonColor: GmcColors().teal,
               ),
             ),
-            const SizedBox(
-              height: 25,
-            ),
+            const SizedBox(height: 25),
             Container(
               width: MyUtility(context).width - 360,
               height: 50,
@@ -67,26 +75,34 @@ class _LinesMainState extends State<LinesMain> {
                       style: GoogleFonts.roboto(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 20
+                        fontSize: 20,
                       ),
                     ),
                     const Spacer(),
-                     Text(
+                    Text(
                       'Status',
                       style: GoogleFonts.roboto(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 20
+                        fontSize: 20,
                       ),
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: lineContainers.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: lineContainers[index],
+                  );
+                },
+              ),
             ),
-            LineContainer(isOffline: true, lineID: 'AG5J85D')
           ],
         ),
       ),

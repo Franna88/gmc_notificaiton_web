@@ -5,21 +5,26 @@ import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NewLinePopup extends StatefulWidget {
-  const NewLinePopup({super.key});
+  final Function(String) onAddLine; 
+
+  const NewLinePopup({super.key, required this.onAddLine});
 
   @override
   State<NewLinePopup> createState() => _NewLinePopupState();
 }
 
 class _NewLinePopupState extends State<NewLinePopup> {
+  final lineIDController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final lineID = TextEditingController();
     return Container(
       height: 250,
       width: 300,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8), color: Colors.white),
+        borderRadius: BorderRadius.circular(8),
+        color: Colors.white,
+      ),
       child: Column(
         children: [
           Container(
@@ -27,7 +32,7 @@ class _NewLinePopupState extends State<NewLinePopup> {
             width: 300,
             decoration: BoxDecoration(
               color: GmcColors().black,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(8),
                 topRight: Radius.circular(8),
               ),
@@ -58,7 +63,10 @@ class _NewLinePopupState extends State<NewLinePopup> {
           ),
           Padding(
             padding: const EdgeInsets.all(15),
-            child: BlackTextField(title: 'Line ID', controller: lineID),
+            child: BlackTextField(
+              title: 'Line ID',
+              controller: lineIDController,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -66,15 +74,22 @@ class _NewLinePopupState extends State<NewLinePopup> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SmallButtons(
-                    onTap: () {},
-                    buttonText: 'Accept',
-                    buttonColor: GmcColors().orange),
+                  onTap: () {
+                    if (lineIDController.text.isNotEmpty) {
+                      widget.onAddLine(lineIDController.text); 
+                      Navigator.pop(context); 
+                    }
+                  },
+                  buttonText: 'Accept',
+                  buttonColor: GmcColors().orange,
+                ),
                 SmallButtons(
-                    onTap: () {
-                      Navigator.pop(context);
-                    },
-                    buttonText: 'Cancel',
-                    buttonColor: GmcColors().red)
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  buttonText: 'Cancel',
+                  buttonColor: GmcColors().red,
+                ),
               ],
             ),
           )

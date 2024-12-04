@@ -55,6 +55,18 @@ class _NavBarMainState extends State<NavBarMain> {
             buttonText: 'REPORTS',
             onTap: () => _handleItemClick(2),
           ),
+          const Spacer(),
+          Container(
+            height: 200,
+            width: 280,
+            decoration: BoxDecoration(
+              
+              image: DecorationImage(
+                image: AssetImage('images/stripes.png'),
+                fit: BoxFit.fill,
+              ),
+            ),
+          )
         ],
       ),
     );
