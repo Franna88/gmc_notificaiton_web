@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gmcweb/CommonUi/myDropDownMenu.dart';
 import 'package:gmcweb/CommonUi/mySerachBar.dart';
@@ -9,7 +10,8 @@ import '../Constants/gmcColors.dart';
 import '../Constants/myutility.dart';
 
 class ReportsMain extends StatefulWidget {
-  const ReportsMain({super.key});
+  final User? user;
+  const ReportsMain({super.key, required this.user});
 
   @override
   State<ReportsMain> createState() => _ReportsMainState();
@@ -40,7 +42,9 @@ class _ReportsMainState extends State<ReportsMain> {
               children: [
                 MySearchBar(
                     textController: searchLineID, hintText: 'Search Line ID'),
-                const SizedBox(width: 30,),
+                const SizedBox(
+                  width: 30,
+                ),
                 MyDropDownMenu(
                     customSize: 300,
                     items: [

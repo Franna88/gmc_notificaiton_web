@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gmcweb/CommonUi/smallButtons.dart';
@@ -9,7 +10,8 @@ import 'package:gmcweb/Users/popup/addUserPopup.dart';
 import '../Constants/gmcColors.dart';
 
 class UsersMain extends StatefulWidget {
-  const UsersMain({super.key});
+  final User? user;
+  const UsersMain({super.key, required this.user});
 
   @override
   State<UsersMain> createState() => _UsersMainState();

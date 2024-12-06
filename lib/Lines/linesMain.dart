@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -9,7 +10,8 @@ import 'package:gmcweb/Lines/ui/LineContainers/lineContainer.dart';
 import 'package:gmcweb/Lines/ui/newLinePopup.dart';
 
 class LinesMain extends StatefulWidget {
-  const LinesMain({super.key});
+  final User? user;
+  const LinesMain({super.key, required this.user});
 
   @override
   State<LinesMain> createState() => _LinesMainState();
@@ -17,6 +19,7 @@ class LinesMain extends StatefulWidget {
 
 class _LinesMainState extends State<LinesMain> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   List<LineContainer> lineContainers = [];
   bool isLoading = true;
