@@ -50,30 +50,30 @@ class UserTable extends StatelessWidget {
                   ),
                 ),
               ),
-              TableStructure(
-                child: TableCell(
-                  child: Text(
-                    'Contact No',
-                    style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
-              TableStructure(
-                child: TableCell(
-                  child: Text(
-                    'Current Password',
-                    style: GoogleFonts.roboto(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
+              // TableStructure(
+              //   child: TableCell(
+              //     child: Text(
+              //       'Contact No',
+              //       style: GoogleFonts.roboto(
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.white,
+              //         fontSize: 20,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // TableStructure(
+              //   child: TableCell(
+              //     child: Text(
+              //       'Current Password',
+              //       style: GoogleFonts.roboto(
+              //         fontWeight: FontWeight.bold,
+              //         color: Colors.white,
+              //         fontSize: 20,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           ...List.generate(
@@ -82,7 +82,7 @@ class UserTable extends StatelessWidget {
               final user = users[index];
               return TableRow(
                 decoration: BoxDecoration(
-                  color: index % 2 == 1 ? Colors.grey[200] : Colors.white ,
+                  color: index % 2 == 1 ? Colors.grey[200] : Colors.white,
                   border: Border(
                     bottom: BorderSide(
                       width: 1,
@@ -107,22 +107,22 @@ class UserTable extends StatelessWidget {
                       ),
                     ),
                   ),
-                  TableStructure(
-                    child: TableCell(
-                      child: Text(
-                        user['contactNo']!,
-                        style: GoogleFonts.roboto(fontSize: 18),
-                      ),
-                    ),
-                  ),
-                  TableStructure(
-                    child: TableCell(
-                      child: Text(
-                        user['password']!,
-                        style: GoogleFonts.roboto(fontSize: 18),
-                      ),
-                    ),
-                  ),
+                  // TableStructure(
+                  //   child: TableCell(
+                  //     child: Text(
+                  //       user['contactNo']!,
+                  //       style: GoogleFonts.roboto(fontSize: 18),
+                  //     ),
+                  //   ),
+                  // ),
+                  // TableStructure(
+                  //   child: TableCell(
+                  //     child: Text(
+                  //       user['password']!,
+                  //       style: GoogleFonts.roboto(fontSize: 18),
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               );
             },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gmcweb/CommonUi/smallButtons.dart';
 import 'package:gmcweb/CommonUi/stackedHeaders.dart';
 import 'package:gmcweb/Constants/myutility.dart';
@@ -15,25 +16,61 @@ class UsersMain extends StatefulWidget {
 }
 
 class _UsersMainState extends State<UsersMain> {
-  final List<Map<String, String>> _users = [
-    {
-      'name': 'James Harmse',
-      'email': 'james@gmail.com',
-      'contactNo': '099 222 333',
-      'password': '********',
-    }
-  ];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  void _addUser(
-      String name, String email, String contactNo, String password) {
-    setState(() {
-      _users.add({
+  List<Map<String, String>> _users = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUsers(); // Fetch users from Firebase on initialization
+  }
+
+  Future<void> _fetchUsers() async {
+    try {
+      final querySnapshot = await _firestore.collection('users').get();
+      final fetchedUsers = querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        return {
+          'name': data['name'] as String ?? '',
+          'email': data['email'] as String ?? '',
+          'role': data['role'] as String ?? '',
+        };
+      }).toList();
+
+      setState(() {
+        _users = fetchedUsers;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error fetching users: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _addUserToFirebase(
+      String name, String email, String role) async {
+    try {
+      // Add user to Firestore
+      await _firestore.collection('users').add({
         'name': name,
         'email': email,
-        'contactNo': contactNo,
-        'password': password,
+        'role': role,
       });
-    });
+
+      // Refresh the user list
+      await _fetchUsers();
+    } catch (e) {
+      print('Error adding user: $e');
+    }
+  }
+
+  Future<void> _addUser(
+      String name, String email, String contactNo, String role) async {
+    await _addUserToFirebase(name, email, role);
     Navigator.pop(context); // Close the popup after adding
   }
 
@@ -41,7 +78,7 @@ class _UsersMainState extends State<UsersMain> {
         context: context,
         builder: (context) {
           return Dialog(
-            child: AddUserPopup(onAddUser: _addUser)
+            child: AddUserPopup(onAddUser: _addUser),
           );
         },
       );
@@ -53,11 +90,12 @@ class _UsersMainState extends State<UsersMain> {
       height: MyUtility(context).height,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 30,),
+            const SizedBox(height: 30),
             StackedHeaders(constrianedWidth: 450, width: 445, header: 'Users'),
-            const SizedBox(height: 30,),
+            const SizedBox(height: 30),
             Align(
               alignment: Alignment.centerRight,
               child: SmallButtons(
@@ -66,8 +104,12 @@ class _UsersMainState extends State<UsersMain> {
                 buttonColor: GmcColors().teal,
               ),
             ),
-            const SizedBox(height: 25,),
-            UserTable(users: _users),
+            const SizedBox(height: 25),
+            _isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : UserTable(users: _users),
           ],
         ),
       ),

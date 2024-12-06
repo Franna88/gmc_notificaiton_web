@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gmcweb/CommonUi/blackTextField.dart';
 import 'package:gmcweb/CommonUi/group_button.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
@@ -6,18 +7,54 @@ import 'package:gmcweb/Constants/myutility.dart';
 import 'package:gmcweb/gmcHome.dart';
 
 class Login extends StatefulWidget {
-  const Login({
-    super.key,
-  });
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
-  final TextEditingController _loginEmailController = TextEditingController();
+  final TextEditingController _loginEmailController =
+      TextEditingController(text: 'suptest@gmail.com');
   final TextEditingController _loginPasswordController =
-      TextEditingController();
+      TextEditingController(text: 'test123');
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  bool _isLoading = false;
+  String? _errorMessage;
+
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: _loginEmailController.text.trim(),
+        password: _loginPasswordController.text.trim(),
+      );
+
+      // Navigate to the home screen on successful login
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => GmcHome()),
+      );
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message;
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'An unexpected error occurred. Please try again.';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +68,7 @@ class _LoginState extends State<Login> {
             color: Colors.white,
             child: Column(
               children: [
-                const SizedBox(
-                  height: 50,
-                ),
+                const SizedBox(height: 50),
                 SizedBox(
                   width: 280,
                   child: Image.asset(
@@ -43,10 +78,10 @@ class _LoginState extends State<Login> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: 400, // Match the width of the container
+                  width: 400,
                   child: Image.asset(
                     'images/swirl.png',
-                    fit: BoxFit.cover, // Ensures the image scales properly
+                    fit: BoxFit.cover,
                   ),
                 ),
               ],
@@ -57,34 +92,28 @@ class _LoginState extends State<Login> {
             height: MyUtility(context).height,
             child: Stack(
               children: [
-                // Background image
                 Container(
                   height: MyUtility(context).height,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                          'images/car_manufacturing.jpeg'), // Replace with your image path
-                      fit: BoxFit.cover, // Adjust fit as needed
+                      image: AssetImage('images/car_manufacturing.jpeg'),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                // Shadow overlay for the background image only
                 Container(
                   height: MyUtility(context).height,
-                  color: Colors.black.withOpacity(0.5), // Dark shadow overlay
+                  color: Colors.black.withOpacity(0.5),
                 ),
-                // White container to stay on top of the image
                 Center(
                   child: Container(
                     width: MyUtility(context).width * 0.32,
                     height: MyUtility(context).height * 0.65,
                     child: Stack(
                       children: [
-                        // Orange container positioned slightly off-center
                         Positioned(
-                          bottom: 14, // Adjusted for better positioning
-                          right:
-                              10, // Adjusted to align off-center to the right
+                          bottom: 14,
+                          right: 10,
                           child: Container(
                             decoration: BoxDecoration(
                               color: GmcColors().orange,
@@ -94,7 +123,6 @@ class _LoginState extends State<Login> {
                             height: MyUtility(context).height * 0.6,
                           ),
                         ),
-                        // White container centered on the screen
                         Center(
                           child: Container(
                             width: MyUtility(context).width * 0.30,
@@ -121,25 +149,34 @@ class _LoginState extends State<Login> {
                                   ),
                                   Spacer(),
                                   BlackTextField(
-                                      title: 'Email',
-                                      controller: _loginEmailController),
+                                    title: 'Email',
+                                    controller: _loginEmailController,
+                                  ),
                                   SizedBox(
                                       height: MyUtility(context).height * 0.05),
                                   BlackTextField(
-                                      title: 'Password',
-                                      controller: _loginPasswordController),
+                                    title: 'Password',
+                                    controller: _loginPasswordController,
+                                  ),
+                                  if (_errorMessage != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: Text(
+                                        _errorMessage!,
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ),
                                   Spacer(),
-                                  GroupButton(
-                                      buttonText: 'Login',
-                                      centerText: true,
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => GmcHome(),
-                                          ),
-                                        );
-                                      })
+                                  _isLoading
+                                      ? CircularProgressIndicator()
+                                      : GroupButton(
+                                          buttonText: 'Login',
+                                          centerText: true,
+                                          onTap: _login,
+                                        ),
                                 ],
                               ),
                             ),
