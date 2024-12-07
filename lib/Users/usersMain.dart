@@ -99,7 +99,7 @@ class _UsersMainState extends State<UsersMain> {
             StackedHeaders(constrianedWidth: 450, width: 445, header: 'Users'),
             const SizedBox(height: 30),
             Align(
-              alignment: Alignment.centerRight,
+              alignment: Alignment.topLeft,
               child: SmallButtons(
                 onTap: openAddUserPopup,
                 buttonText: 'Add User',

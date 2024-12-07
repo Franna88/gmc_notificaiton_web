@@ -10,8 +10,8 @@ import 'package:gmcweb/Lines/ui/LineContainers/lineContainer.dart';
 import 'package:gmcweb/Lines/ui/newLinePopup.dart';
 
 class LinesMain extends StatefulWidget {
-  final User? user;
-  const LinesMain({super.key, required this.user});
+  User? user;
+  LinesMain({super.key, this.user});
 
   @override
   State<LinesMain> createState() => _LinesMainState();
@@ -23,6 +23,7 @@ class _LinesMainState extends State<LinesMain> {
 
   List<LineContainer> lineContainers = [];
   bool isLoading = true;
+  String? technicianName;
 
   @override
   void initState() {
@@ -61,7 +62,7 @@ class _LinesMainState extends State<LinesMain> {
 
   Future<void> addNewLine(String lineID) async {
     try {
-      // Add a new document to Firestore (optional)
+      // Add a new line to Firestore
       await _firestore.collection('systems').doc(lineID).set({
         'online': false,
         'isAlreadyDown': false,
@@ -90,76 +91,78 @@ class _LinesMainState extends State<LinesMain> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading
-        ? Center(child: CircularProgressIndicator())
-        : SizedBox(
-            width: MyUtility(context).width - 280,
-            height: MyUtility(context).height,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 30),
-                  StackedHeaders(
-                    constrianedWidth: 450,
-                    width: 445,
-                    header: 'Lines',
-                  ),
-                  const SizedBox(height: 30),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: SmallButtons(
-                      onTap: openNewLinePopup,
-                      buttonText: 'Add Line',
-                      buttonColor: GmcColors().teal,
+    return Material(
+      child: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SizedBox(
+              width: MyUtility(context).width - 280,
+              height: MyUtility(context).height,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 30),
+                    StackedHeaders(
+                      constrianedWidth: 450,
+                      width: 445,
+                      header: 'Lines',
                     ),
-                  ),
-                  const SizedBox(height: 25),
-                  Container(
-                    width: MyUtility(context).width - 360,
-                    height: 50,
-                    color: GmcColors().black,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 50),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Line ID',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            'Status',
-                            style: GoogleFonts.roboto(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ],
+                    const SizedBox(height: 30),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: SmallButtons(
+                        onTap: openNewLinePopup,
+                        buttonText: 'Add Line',
+                        buttonColor: GmcColors().teal,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: lineContainers.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: lineContainers[index],
-                        );
-                      },
+                    const SizedBox(height: 25),
+                    Container(
+                      width: MyUtility(context).width - 360,
+                      height: 50,
+                      color: GmcColors().black,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 50),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Line ID',
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              'Status',
+                              style: GoogleFonts.roboto(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    const SizedBox(height: 20),
+                    Expanded(
+                      child: ListView.builder(
+                        itemCount: lineContainers.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: lineContainers[index],
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          );
+    );
   }
 }

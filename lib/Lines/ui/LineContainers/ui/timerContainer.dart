@@ -3,21 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TimerContainer extends StatefulWidget {
-  final bool isOffline;
-  const TimerContainer({super.key, required this.isOffline});
+  final DateTime? startTime; // Pass startTime from Firestore
+  final bool isOffline; // Pass status from Firestore
+
+  const TimerContainer({
+    super.key,
+    required this.startTime,
+    required this.isOffline,
+  });
 
   @override
   State<TimerContainer> createState() => _TimerContainerState();
 }
 
 class _TimerContainerState extends State<TimerContainer> {
-  Timer? _timer; // Make _timer nullable
-  int _secondsElapsed = 0;
+  Timer? _timer;
+  int _elapsedSeconds = 0;
 
   @override
   void initState() {
     super.initState();
-    if (widget.isOffline) {
+    if (widget.isOffline && widget.startTime != null) {
       _startTimer();
     }
   }
@@ -25,26 +31,29 @@ class _TimerContainerState extends State<TimerContainer> {
   @override
   void didUpdateWidget(covariant TimerContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.isOffline && !oldWidget.isOffline) {
+    if (widget.isOffline && widget.startTime != null) {
       _startTimer();
-    } else if (!widget.isOffline && oldWidget.isOffline) {
+    } else {
       _stopTimer();
     }
   }
 
   void _startTimer() {
-    _stopTimer(); // Ensure no duplicate timers are running
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        _secondsElapsed++;
-      });
+    _stopTimer(); // Ensure no duplicate timers
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (widget.startTime != null) {
+        final now = DateTime.now();
+        setState(() {
+          _elapsedSeconds = now.difference(widget.startTime!).inSeconds;
+        });
+      }
     });
   }
 
   void _stopTimer() {
     if (_timer != null && _timer!.isActive) {
       _timer!.cancel();
-      _timer = null; // Set to null to avoid reuse
+      _timer = null;
     }
   }
 
@@ -72,8 +81,8 @@ class _TimerContainerState extends State<TimerContainer> {
       ),
       alignment: Alignment.center,
       child: Text(
-        _formatTime(_secondsElapsed),
-        style:  GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.bold),
+        widget.isOffline ? _formatTime(_elapsedSeconds) : 'Online',
+        style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.bold),
       ),
     );
   }

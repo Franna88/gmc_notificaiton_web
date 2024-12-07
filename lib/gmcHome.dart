@@ -51,13 +51,6 @@ class _GmcHomeState extends State<GmcHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      // appBar: AppBar(
-      //   title: Text(
-      //     'Welcome, ${_currentUser?.email ?? "User"}',
-      //     style: const TextStyle(color: Colors.white),
-      //   ),
-      //   backgroundColor: Colors.blueGrey,
-      // ),
       body: Row(
         children: [
           NavBarMain(

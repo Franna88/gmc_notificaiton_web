@@ -38,6 +38,17 @@ class _NavBarMainState extends State<NavBarMain> {
           ),
           Image.asset('images/gmcLogoBig.png'),
           const SizedBox(
+            height: 10,
+          ),
+          Text(
+            'v1.0',
+            style: TextStyle(
+              color: GmcColors().orange,
+              fontSize: 12.0,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(
             height: 100,
           ),
           NavButtons(
@@ -60,7 +71,6 @@ class _NavBarMainState extends State<NavBarMain> {
             height: 200,
             width: 280,
             decoration: BoxDecoration(
-              
               image: DecorationImage(
                 image: AssetImage('images/stripes.png'),
                 fit: BoxFit.fill,

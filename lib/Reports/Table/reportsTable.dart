@@ -19,6 +19,7 @@ class _ReportsTableState extends State<ReportsTable> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   List<Map<String, dynamic>> reports = [];
   bool isLoading = true;
+  String? technicianName;
 
   @override
   void initState() {
@@ -34,10 +35,11 @@ class _ReportsTableState extends State<ReportsTable> {
         final data = doc.data();
         return {
           'lineID': data['lineId'],
-          'date': data['timestamp'],
+          'date': (data['timestamp'] as Timestamp).toDate().toString(),
           'technician': data['technicianName'],
           'cause': data['cause'],
           'status': data['status'],
+          'lineName': data['lineName'],
         };
       }).toList();
 
@@ -52,28 +54,6 @@ class _ReportsTableState extends State<ReportsTable> {
       });
     }
   }
-
-  // void showCausePopup(Map<String, dynamic> causeData) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return Dialog(
-  //         child: Container(
-  //           padding: const EdgeInsets.all(16.0),
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               Image.network(causeData['imageUrl']),
-  //               const SizedBox(height: 16),
-  //               Text(causeData['description'],
-  //                   style: const TextStyle(fontSize: 16)),
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   void showCausePopup(BuildContext context, Map<String, dynamic> causeData) {
     showDialog(
@@ -198,7 +178,7 @@ class _ReportsTableState extends State<ReportsTable> {
                         TableStructure(
                           child: TableCell(
                             child: Text(
-                              report['lineID'] ?? '',
+                              report['lineName'] ?? '',
                               style: const TextStyle(fontSize: 18),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -207,8 +187,8 @@ class _ReportsTableState extends State<ReportsTable> {
                         TableStructure(
                           child: TableCell(
                             child: Text(
-                              //report['date'] ?? '',
-                              'Date here',
+                              report['date'] ?? '',
+                              //'Date here',
                               style: const TextStyle(fontSize: 18),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -216,9 +196,13 @@ class _ReportsTableState extends State<ReportsTable> {
                         ),
                         TableStructure(
                           child: TableCell(
-                            child: Text(
-                              report['technicianId'] ?? '',
-                              style: const TextStyle(fontSize: 18),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Text(
+                                //'Tech Name',
+                                report['technician'] ?? 'No Name',
+                                style: const TextStyle(fontSize: 18),
+                              ),
                             ),
                           ),
                         ),
@@ -252,7 +236,11 @@ class _ReportsTableState extends State<ReportsTable> {
                         ),
                         TableStructure(
                           child: TableCell(
-                            child: TimerContainer(isOffline: true),
+                            child: Text(
+                              '00:00',
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                            //TimerContainer(isOffline: true),
                           ),
                         ),
                       ],
