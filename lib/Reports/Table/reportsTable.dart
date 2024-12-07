@@ -108,7 +108,7 @@ class _ReportsTableState extends State<ReportsTable> {
                 rows: reports.map((report) {
                   return DataRow(
                     cells: [
-                      DataCell(Text(report['lineID'] ?? '')),
+                      DataCell(Text(report['lineName'] ?? '')),
                       DataCell(Text(report['date'] ?? '')),
                       DataCell(Text(report['technician'] ?? 'No Name')),
                       DataCell(
