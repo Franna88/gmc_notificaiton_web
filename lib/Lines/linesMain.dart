@@ -43,7 +43,7 @@ class _LinesMainState extends State<LinesMain> {
       final lines = querySnapshot.docs.map((doc) {
         final data = doc.data();
         return LineContainer(
-          isOffline: !(data['online'] as bool),
+          //isOffline: !(data['online'] as bool),
           lineID: doc.id,
         );
       }).toList();

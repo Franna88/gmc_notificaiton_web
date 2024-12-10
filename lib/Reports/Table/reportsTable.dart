@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gmcweb/CommonUi/smallButtons.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
+import 'package:gmcweb/Reports/ReportsPopUps/cause_popup.dart';
+import 'package:gmcweb/Reports/ReportsPopUps/resolve_popup.dart';
 
 class ReportsTable extends StatefulWidget {
   const ReportsTable({super.key});
@@ -26,6 +28,10 @@ class _ReportsTableState extends State<ReportsTable> {
       final querySnapshot = await _firestore.collection('downedLines').get();
       final fetchedReports = querySnapshot.docs.map((doc) {
         final data = doc.data();
+        final totalSeconds =
+            int.tryParse(data['totalDownTime'].toString()) ?? 0;
+        // Convert to minutes
+        final totalMinutes = (totalSeconds / 60).ceil();
         return {
           'lineID': data['lineId'],
           'date': (data['timestamp'] as Timestamp).toDate().toString(),
@@ -34,6 +40,8 @@ class _ReportsTableState extends State<ReportsTable> {
           'resolution': data['resolution'],
           'status': data['status'],
           'lineName': data['lineName'],
+          // Format with "Min"
+          'totalDownTime': '$totalMinutes Min',
         };
       }).toList();
 
@@ -49,13 +57,35 @@ class _ReportsTableState extends State<ReportsTable> {
     }
   }
 
-  void showCausePopup(BuildContext context, Map<String, dynamic> causeData) {
-    // Define this function to show the cause popup
+  void showCausePopup(BuildContext context, Map<String, dynamic>? causeData) {
+    if (causeData == null) {
+      // Handle the case where no cause data is available
+      print('Cause data is null.');
+      return;
+    }
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CausePopup(causeData: causeData);
+      },
+    );
   }
 
   void showResolvePopup(
       BuildContext context, Map<String, dynamic> resolutionData) {
     // Define this function to show the resolve popup
+    if (ResolvePopup == null) {
+      // Handle the case where no cause data is available
+      print('Cause data is null.');
+      return;
+    }
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ResolvePopup(resolutionData: resolutionData);
+      },
+    );
   }
 
   @override
@@ -105,34 +135,50 @@ class _ReportsTableState extends State<ReportsTable> {
                     ),
                   ),
                 ],
-                rows: reports.map((report) {
-                  return DataRow(
-                    cells: [
-                      DataCell(Text(report['lineName'] ?? '')),
-                      DataCell(Text(report['date'] ?? '')),
-                      DataCell(Text(report['technician'] ?? 'No Name')),
-                      DataCell(
-                        SmallButtons(
-                          onTap: () {
-                            showCausePopup(context, report['cause'][0]);
-                          },
-                          buttonText: 'View',
-                          buttonColor: GmcColors().teal,
+                rows: reports.map(
+                  (report) {
+                    return DataRow(
+                      cells: [
+                        DataCell(Text(report['lineName'] ?? '')),
+                        DataCell(Text(report['date'] ?? '')),
+                        DataCell(Text(report['technician'] ?? 'No Name')),
+                        DataCell(
+                          SmallButtons(
+                            onTap: () {
+                              if (report['cause'] != null &&
+                                  report['cause'] is List &&
+                                  report['cause'].isNotEmpty) {
+                                // Pass the first item in the cause list
+                                showCausePopup(context, report['cause'][0]);
+                              } else {
+                                // Handle cases where cause is null or empty
+                                print('No cause data available.');
+                              }
+                            },
+                            buttonText: 'View',
+                            buttonColor: GmcColors().teal,
+                          ),
                         ),
-                      ),
-                      DataCell(
-                        SmallButtons(
-                          onTap: () {
-                            showResolvePopup(context, report['resolution'][0]);
-                          },
-                          buttonText: 'View',
-                          buttonColor: GmcColors().orange,
+
+                        DataCell(
+                          SmallButtons(
+                            onTap: () {
+                              showResolvePopup(
+                                  context, report['resolution'][0]);
+                            },
+                            buttonText: 'View',
+                            buttonColor: GmcColors().orange,
+                          ),
                         ),
-                      ),
-                      DataCell(Text('00:00')), // Replace with actual downtime
-                    ],
-                  );
-                }).toList(),
+                        DataCell(
+                          Text(
+                            report['totalDownTime'] ?? 'DOWN',
+                          ),
+                        ), // Replace with actual downtime
+                      ],
+                    );
+                  },
+                ).toList(),
               ),
             ),
           );

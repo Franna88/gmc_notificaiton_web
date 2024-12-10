@@ -64,7 +64,6 @@ class CausePopup extends StatelessWidget {
                   ),
                 ),
               ),
-
               // Content Section
               Expanded(
                 child: Padding(

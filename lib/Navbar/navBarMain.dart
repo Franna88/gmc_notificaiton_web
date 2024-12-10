@@ -41,7 +41,7 @@ class _NavBarMainState extends State<NavBarMain> {
             height: 10,
           ),
           Text(
-            'v1.0',
+            'v1.1',
             style: TextStyle(
               color: GmcColors().orange,
               fontSize: 12.0,
