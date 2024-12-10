@@ -66,9 +66,11 @@ class _LineContainerState extends State<LineContainer> {
             await FirebaseFirestore.instance
                 .collection('systems')
                 .doc(widget.lineID)
-                .update({
-              'documents': FieldValue.arrayUnion([downloadURL]),
-            });
+                .set({
+              'documents': FieldValue.arrayUnion([
+                {'downloadUrl': downloadURL, 'fileName': fileName}
+              ]),
+            }, SetOptions(merge: true));
 
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Document uploaded successfully!')),
