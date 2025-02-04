@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gmcweb/CommonUi/logedInUser.dart';
+import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
 import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Navbar/navBarMain.dart';
@@ -56,10 +58,38 @@ class _GmcHomeState extends State<GmcHome> {
           NavBarMain(
             changePage: changePage,
           ),
-          SizedBox(
-            width: MyUtility(context).width - 280,
-            height: MyUtility(context).height,
-            child: Center(child: pages[pageIndex]),
+          Column(
+            children: [
+              Container(
+                height: 65,
+                width: MyUtility(context).width - 80,
+                color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Image.asset('images/antolinLogo.png'),
+                    ),
+                    LogedInUser(
+                        userName: 'John Smith',
+                        userRole: 'Production Manager',
+                        userImage: 'images/person.jpg')
+                  ],
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    left: BorderSide(width: 2, color: GmcColors().antolinBlack),
+                    top: BorderSide(width: 2, color: GmcColors().antolinBlack),
+                  ),
+                ),
+                width: MyUtility(context).width - 80,
+                height: MyUtility(context).height - 65,
+                child: Center(child: pages[pageIndex]),
+              ),
+            ],
           ),
         ],
       ),
