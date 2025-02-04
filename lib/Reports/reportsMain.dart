@@ -24,8 +24,8 @@ class _ReportsMainState extends State<ReportsMain> {
     final monthDropMenu = TextEditingController();
 
     return SizedBox(
-      width: MyUtility(context).width - 280,
-      height: MyUtility(context).height,
+      width: MyUtility(context).width - 80,
+      height: MyUtility(context).height - 65,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 40),
         child: Column(

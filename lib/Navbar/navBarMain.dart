@@ -28,15 +28,15 @@ class _NavBarMainState extends State<NavBarMain> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 280,
+      width: 80,
       height: MyUtility(context).height,
-      color: GmcColors().black,
+      color: Colors.white,
       child: Column(
         children: [
           const SizedBox(
-            height: 30,
+            height: 20,
           ),
-          Image.asset('images/gmcLogoBig.png'),
+         /* Image.asset('images/gmcLogoBig.png'),
           const SizedBox(
             height: 10,
           ),
@@ -47,32 +47,32 @@ class _NavBarMainState extends State<NavBarMain> {
               fontSize: 12.0,
               fontWeight: FontWeight.bold,
             ),
-          ),
+          ),*/
           const SizedBox(
-            height: 100,
+            height: 90,
           ),
           NavButtons(
             isActive: activeIndex == 0,
-            buttonText: 'LINES',
+            imageIcon: 'images/homeTab.png',
             onTap: () => _handleItemClick(0),
           ),
           NavButtons(
             isActive: activeIndex == 1,
-            buttonText: 'USERS',
+            imageIcon: 'images/linesTab.png',
             onTap: () => _handleItemClick(1),
           ),
           NavButtons(
             isActive: activeIndex == 2,
-            buttonText: 'REPORTS',
+            imageIcon: 'images/reportsTab.png',
             onTap: () => _handleItemClick(2),
           ),
           const Spacer(),
           Container(
-            height: 200,
-            width: 280,
+            height: MyUtility(context).height * 0.50,
+            width: 80,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('images/stripes.png'),
+                image: AssetImage('images/texture.png'),
                 fit: BoxFit.fill,
               ),
             ),

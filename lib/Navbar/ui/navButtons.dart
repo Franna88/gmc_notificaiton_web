@@ -3,13 +3,13 @@ import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class NavButtons extends StatefulWidget {
-  final String buttonText;
+  final String imageIcon;
   final bool isActive;
   final Function() onTap;
   const NavButtons(
       {super.key,
       required this.isActive,
-      required this.buttonText,
+      required this.imageIcon,
       required this.onTap});
 
   @override
@@ -22,25 +22,22 @@ class _NavButtonsState extends State<NavButtons> {
     return InkWell(
       onTap: widget.onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
         child: Container(
-          width: 240,
-          height: 45,
+          width: 55,
+          height: 55,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(0, 0, 0, 0),
-            borderRadius: BorderRadius.circular(8),
+            color: const Color.fromRGBO(217, 217, 217, 1),
+            borderRadius: BorderRadius.circular(15),
             border: Border.all(
               width: 1.5,
-              color: widget.isActive ? GmcColors().orange : Colors.white,
+              color: GmcColors().antolinTeal,
             ),
           ),
           child: Center(
-            child: Text(
-              widget.buttonText,
-              style: GoogleFonts.roboto(
-                color: widget.isActive ? GmcColors().orange : Colors.white,
-                fontWeight: FontWeight.w600
-              ),
+            child: Image.asset(
+              widget.imageIcon,
+              color: widget.isActive == true ? GmcColors().antolinTeal : null,
             ),
           ),
         ),
