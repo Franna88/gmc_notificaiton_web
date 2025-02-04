@@ -4,7 +4,7 @@ import 'package:gmcweb/CommonUi/blackTextField.dart';
 import 'package:gmcweb/CommonUi/group_button.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
-import 'package:gmcweb/gmcHome.dart';
+import 'package:gmcweb/main_page_layout.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
       // Navigate to the home screen on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => GmcHome()),
+        MaterialPageRoute(builder: (context) => MainPageLayout()),
       );
     } on FirebaseAuthException catch (e) {
       setState(() {
