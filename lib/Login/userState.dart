@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Login/login.dart';
-import 'package:gmcweb/Layout&Nav/main_page_layout.dart';
+import 'package:gmcweb/Layout&Nav/gmcHome.dart';
 
 class UserState extends StatefulWidget {
   const UserState({super.key});
@@ -42,7 +42,7 @@ class _UserStateState extends State<UserState> {
         if (userSnapshot.hasData) {
           // User is logged in
           print('User is logged in: ${userSnapshot.data?.email}');
-          return const MainPageLayout();
+          return const gmcHome();
           //return LinesMain();
         }
 

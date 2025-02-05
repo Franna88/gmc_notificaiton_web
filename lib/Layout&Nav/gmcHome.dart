@@ -8,14 +8,14 @@ import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Reports/reportsMain.dart';
 import 'package:gmcweb/Users/usersMain.dart';
 
-class MainPageLayout extends StatefulWidget {
-  const MainPageLayout({super.key});
+class gmcHome extends StatefulWidget {
+  const gmcHome({super.key});
 
   @override
-  _MainPageLayoutState createState() => _MainPageLayoutState();
+  _gmcHomeState createState() => _gmcHomeState();
 }
 
-class _MainPageLayoutState extends State<MainPageLayout> {
+class _gmcHomeState extends State<gmcHome> {
   int _selectedIndex = 0;
 
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
