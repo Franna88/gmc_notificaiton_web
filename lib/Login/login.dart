@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
       // Navigate to the home screen on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => GmcHome()),
+        MaterialPageRoute(builder: (context) => gmcHome()),
       );
     } on FirebaseAuthException catch (e) {
       setState(() {

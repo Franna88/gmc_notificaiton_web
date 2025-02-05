@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
-import 'package:gmcweb/Navbar/ui/navButtons.dart';
+
 import 'package:gmcweb/Constants/myutility.dart';
+import 'package:gmcweb/Navbar/ui/navButtons.dart';
 
 class NavBarMain extends StatefulWidget {
-  final Function(int) changePage;
+  final int initialIndex;
+  final Function(int) onTabSelected;
 
   const NavBarMain({
     super.key,
-    required this.changePage,
+    required this.initialIndex,
+    required this.onTabSelected,
   });
 
   @override
@@ -16,13 +19,19 @@ class NavBarMain extends StatefulWidget {
 }
 
 class _NavBarMainState extends State<NavBarMain> {
-  int activeIndex = 0;
+  int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
   void _handleItemClick(int index) {
     setState(() {
-      activeIndex = index;
+      _selectedIndex = index;
     });
-    widget.changePage(index); // Notify the parent widget to change the page
+    widget.onTabSelected(index);
   }
 
   @override
@@ -33,38 +42,25 @@ class _NavBarMainState extends State<NavBarMain> {
       color: Colors.white,
       child: Column(
         children: [
-          const SizedBox(
-            height: 20,
-          ),
-         /* Image.asset('images/gmcLogoBig.png'),
-          const SizedBox(
-            height: 10,
-          ),
-          Text(
-            'v1.1',
-            style: TextStyle(
-              color: GmcColors().orange,
-              fontSize: 12.0,
-              fontWeight: FontWeight.bold,
-            ),
-          ),*/
-          const SizedBox(
-            height: 90,
-          ),
+          const SizedBox(height: 20),
+          const SizedBox(height: 90),
           NavButtons(
-            isActive: activeIndex == 0,
             imageIcon: 'images/homeTab.png',
             onTap: () => _handleItemClick(0),
+            isActive: _selectedIndex ==
+                0, // Pass isActive based on the selected index
           ),
           NavButtons(
-            isActive: activeIndex == 1,
             imageIcon: 'images/linesTab.png',
             onTap: () => _handleItemClick(1),
+            isActive: _selectedIndex ==
+                1, // Pass isActive based on the selected index
           ),
           NavButtons(
-            isActive: activeIndex == 2,
             imageIcon: 'images/reportsTab.png',
             onTap: () => _handleItemClick(2),
+            isActive: _selectedIndex ==
+                2, // Pass isActive based on the selected index
           ),
           const Spacer(),
           Container(
@@ -76,7 +72,7 @@ class _NavBarMainState extends State<NavBarMain> {
                 fit: BoxFit.fill,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

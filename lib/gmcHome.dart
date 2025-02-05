@@ -1,97 +1,102 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gmcweb/Antolin_home/antolinMain.dart';
+import 'package:gmcweb/Antolin_home/antolin_main_2.dart';
 import 'package:gmcweb/CommonUi/logedInUser.dart';
-import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
+
 import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Navbar/navBarMain.dart';
 import 'package:gmcweb/Reports/reportsMain.dart';
 import 'package:gmcweb/Users/usersMain.dart';
 
-class GmcHome extends StatefulWidget {
-  const GmcHome({super.key});
+class gmcHome extends StatefulWidget {
+  const gmcHome({super.key});
 
   @override
-  State<GmcHome> createState() => _GmcHomeState();
+  _gmcHomeState createState() => _gmcHomeState();
 }
 
-class _GmcHomeState extends State<GmcHome> {
-  var pageIndex = 0;
-  User? _currentUser;
+class _gmcHomeState extends State<gmcHome> {
+  int _selectedIndex = 0;
 
-  // List of pages
-  late final List<Widget> pages;
+  final List<GlobalKey<NavigatorState>> _navigatorKeys = [
+    GlobalKey<NavigatorState>(), // Lines
+    GlobalKey<NavigatorState>(), // Users
+    GlobalKey<NavigatorState>(), // Reports
+  ];
 
-  @override
-  void initState() {
-    super.initState();
-    _getCurrentUser();
-
-    // Initialize pages with user details if needed
-    pages = [
-      AntolinMain(),
-      //LinesMain(user: _currentUser),
-      UsersMain(user: _currentUser),
-      ReportsMain(user: _currentUser),
-    ];
-  }
-
-  // Fetch current logged-in user
-  void _getCurrentUser() {
-    final user = FirebaseAuth.instance.currentUser;
-    setState(() {
-      _currentUser = user;
-    });
-  }
-
-  void changePage(int value) {
-    setState(() {
-      pageIndex = value;
-    });
+  void _onTabSelected(int index) {
+    if (_selectedIndex == index) {
+      _navigatorKeys[index].currentState?.popUntil((route) => route.isFirst);
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Row(
         children: [
           NavBarMain(
-            changePage: changePage,
+            initialIndex: _selectedIndex,
+            onTabSelected: _onTabSelected,
           ),
-          Column(
-            children: [
-              Container(
-                height: 65,
-                width: MyUtility(context).width - 80,
-                color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Image.asset('images/antolinLogo.png'),
-                    ),
-                    LogedInUser(
+          Expanded(
+            child: Column(
+              children: [
+                Container(
+                  height: 65,
+                  width: MyUtility(context).width - 80,
+                  color: Colors.white,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5),
+                        child: Image.asset('images/antolinLogo.png'),
+                      ),
+                      LogedInUser(
                         userName: 'John Smith',
                         userRole: 'Production Manager',
-                        userImage: 'images/person.jpg')
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  border: Border(
-                    left: BorderSide(width: 2, color: GmcColors().antolinBlack),
-                    top: BorderSide(width: 2, color: GmcColors().antolinBlack),
+                        userImage: 'images/person.jpg',
+                      )
+                    ],
                   ),
                 ),
-                width: MyUtility(context).width - 80,
-                height: MyUtility(context).height - 65,
-                child: Center(child: pages[pageIndex]),
-              ),
-            ],
+                Expanded(
+                  child: IndexedStack(
+                    index: _selectedIndex,
+                    children: [
+                      Navigator(
+                        key: _navigatorKeys[0],
+                        onGenerateRoute: (settings) => MaterialPageRoute(
+                          builder: (_) => AntolinMain(),
+                        ),
+                      ),
+                      Navigator(
+                        key: _navigatorKeys[1],
+                        onGenerateRoute: (settings) => MaterialPageRoute(
+                          builder: (_) => UsersMain(user: currentUser),
+                        ),
+                      ),
+                      Navigator(
+                        key: _navigatorKeys[2],
+                        onGenerateRoute: (settings) => MaterialPageRoute(
+                          builder: (_) => ReportsMain(user: currentUser),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

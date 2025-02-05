@@ -23,52 +23,55 @@ class _ReportsMainState extends State<ReportsMain> {
     final searchLineID = TextEditingController();
     final monthDropMenu = TextEditingController();
 
-    return SizedBox(
-      width: MyUtility(context).width - 80,
-      height: MyUtility(context).height - 65,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            StackedHeaders(constrianedWidth: 450, width: 445, header: 'Users'),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              children: [
-                MySearchBar(
-                    textController: searchLineID, hintText: 'Search Line ID'),
-                const SizedBox(
-                  width: 30,
-                ),
-                MyDropDownMenu(
-                    customSize: 300,
-                    items: [
-                      'January',
-                      'February',
-                      'March',
-                      'April',
-                      'May',
-                      'June',
-                      'July',
-                      'August',
-                      'September',
-                      'October',
-                      'November',
-                      'December'
-                    ],
-                    textfieldController: monthDropMenu)
-              ],
-            ),
-            const SizedBox(
-              height: 25,
-            ),
-            ReportsTable()
-          ],
+    return Scaffold(
+      body: SizedBox(
+        width: MyUtility(context).width,
+        height: MyUtility(context).height,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(
+                height: 30,
+              ),
+              StackedHeaders(
+                  constrianedWidth: 450, width: 445, header: 'Users'),
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                children: [
+                  MySearchBar(
+                      textController: searchLineID, hintText: 'Search Line ID'),
+                  const SizedBox(
+                    width: 30,
+                  ),
+                  MyDropDownMenu(
+                      customSize: 300,
+                      items: [
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'
+                      ],
+                      textfieldController: monthDropMenu)
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              ReportsTable()
+            ],
+          ),
         ),
       ),
     );

@@ -42,7 +42,7 @@ class _UserStateState extends State<UserState> {
         if (userSnapshot.hasData) {
           // User is logged in
           print('User is logged in: ${userSnapshot.data?.email}');
-          return const GmcHome();
+          return const gmcHome();
           //return LinesMain();
         }
 

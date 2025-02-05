@@ -91,12 +91,12 @@ class _LinesMainState extends State<LinesMain> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: isLoading
+    return Scaffold(
+      body: isLoading
           ? Center(child: CircularProgressIndicator())
           : SizedBox(
-              width: MyUtility(context).width - 80,
-              height: MyUtility(context).height - 65,
+              width: MyUtility(context).width,
+              height: MyUtility(context).height,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
