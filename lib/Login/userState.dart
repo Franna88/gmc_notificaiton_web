@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Login/login.dart';
-import 'package:gmcweb/main_page_layout.dart';
+import 'package:gmcweb/Layout&Nav/main_page_layout.dart';
 
 class UserState extends StatefulWidget {
   const UserState({super.key});

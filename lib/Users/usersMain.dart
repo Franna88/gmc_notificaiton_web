@@ -87,32 +87,35 @@ class _UsersMainState extends State<UsersMain> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MyUtility(context).width - 80,
-      height: MyUtility(context).height - 65,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 30),
-            StackedHeaders(constrianedWidth: 450, width: 445, header: 'Users'),
-            const SizedBox(height: 30),
-            Align(
-              alignment: Alignment.topLeft,
-              child: SmallButtons(
-                onTap: openAddUserPopup,
-                buttonText: 'Add User',
-                buttonColor: GmcColors().teal,
+    return Scaffold(
+      body: SizedBox(
+        width: MyUtility(context).width,
+        height: MyUtility(context).height,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 30),
+              StackedHeaders(
+                  constrianedWidth: 450, width: 445, header: 'Users'),
+              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.topLeft,
+                child: SmallButtons(
+                  onTap: openAddUserPopup,
+                  buttonText: 'Add User',
+                  buttonColor: GmcColors().teal,
+                ),
               ),
-            ),
-            const SizedBox(height: 25),
-            _isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : UserTable(users: _users),
-          ],
+              const SizedBox(height: 25),
+              _isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : UserTable(users: _users),
+            ],
+          ),
         ),
       ),
     );
