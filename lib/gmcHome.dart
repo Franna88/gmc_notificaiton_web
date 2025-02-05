@@ -4,7 +4,6 @@ import 'package:gmcweb/Antolin_home/antolinMain.dart';
 import 'package:gmcweb/Antolin_home/antolin_main_2.dart';
 import 'package:gmcweb/CommonUi/logedInUser.dart';
 import 'package:gmcweb/Constants/myutility.dart';
-
 import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Navbar/navBarMain.dart';
 import 'package:gmcweb/Reports/reportsMain.dart';
@@ -42,60 +41,70 @@ class _gmcHomeState extends State<gmcHome> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Row(
+      body: Stack(
         children: [
-          NavBarMain(
-            initialIndex: _selectedIndex,
-            onTabSelected: _onTabSelected,
+          Row(
+            children: [
+              NavBarMain(
+                initialIndex: _selectedIndex,
+                onTabSelected: _onTabSelected,
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(
+                        height: 65), // Space for the floating user container
+                    Expanded(
+                      child: IndexedStack(
+                        index: _selectedIndex,
+                        children: [
+                          Navigator(
+                            key: _navigatorKeys[0],
+                            onGenerateRoute: (settings) => MaterialPageRoute(
+                              builder: (_) => AntolinMainTwo(),
+                            ),
+                          ),
+                          Navigator(
+                            key: _navigatorKeys[1],
+                            onGenerateRoute: (settings) => MaterialPageRoute(
+                              builder: (_) => UsersMain(user: currentUser),
+                            ),
+                          ),
+                          Navigator(
+                            key: _navigatorKeys[2],
+                            onGenerateRoute: (settings) => MaterialPageRoute(
+                              builder: (_) => ReportsMain(user: currentUser),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-          Expanded(
-            child: Column(
-              children: [
-                Container(
-                  height: 65,
-                  width: MyUtility(context).width - 80,
-                  color: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 5),
-                        child: Image.asset('images/antolinLogo.png'),
-                      ),
-                      LogedInUser(
-                        userName: 'John Smith',
-                        userRole: 'Production Manager',
-                        userImage: 'images/person.jpg',
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: IndexedStack(
-                    index: _selectedIndex,
-                    children: [
-                      Navigator(
-                        key: _navigatorKeys[0],
-                        onGenerateRoute: (settings) => MaterialPageRoute(
-                          builder: (_) => AntolinMain(),
-                        ),
-                      ),
-                      Navigator(
-                        key: _navigatorKeys[1],
-                        onGenerateRoute: (settings) => MaterialPageRoute(
-                          builder: (_) => UsersMain(user: currentUser),
-                        ),
-                      ),
-                      Navigator(
-                        key: _navigatorKeys[2],
-                        onGenerateRoute: (settings) => MaterialPageRoute(
-                          builder: (_) => ReportsMain(user: currentUser),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+          Positioned(
+            top: 0,
+            left: 80, // Aligns with NavBar width
+            right: 0,
+            child: Container(
+              height: 65,
+              width: MyUtility(context).width - 80,
+              color: Colors.white
+                  .withOpacity(0.9), // Slight opacity for floating effect
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Image.asset('images/antolinLogo.png', height: 50),
+                  LogedInUser(
+                    userName: 'John Smith',
+                    userRole: 'Production Manager',
+                    userImage: 'images/person.jpg',
+                  )
+                ],
+              ),
             ),
           ),
         ],
