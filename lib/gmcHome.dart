@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gmcweb/Antolin_home/antolinMain.dart';
 import 'package:gmcweb/Antolin_home/antolin_main_2.dart';
+import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_page.dart';
 import 'package:gmcweb/CommonUi/logedInUser.dart';
 import 'package:gmcweb/Constants/myutility.dart';
 import 'package:gmcweb/Lines/linesMain.dart';
@@ -61,7 +62,8 @@ class _gmcHomeState extends State<gmcHome> {
                           Navigator(
                             key: _navigatorKeys[0],
                             onGenerateRoute: (settings) => MaterialPageRoute(
-                              builder: (_) => AntolinMainTwo(),
+                              // builder: (_) => AntolinMainTwo(),
+                              builder: (_) => DetailsPage(),
                             ),
                           ),
                           Navigator(
