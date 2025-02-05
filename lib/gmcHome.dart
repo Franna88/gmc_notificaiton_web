@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gmcweb/Antolin_home/antolinMain.dart';
 import 'package:gmcweb/CommonUi/logedInUser.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
@@ -29,7 +30,8 @@ class _GmcHomeState extends State<GmcHome> {
 
     // Initialize pages with user details if needed
     pages = [
-      LinesMain(user: _currentUser),
+      AntolinMain(),
+      //LinesMain(user: _currentUser),
       UsersMain(user: _currentUser),
       ReportsMain(user: _currentUser),
     ];
