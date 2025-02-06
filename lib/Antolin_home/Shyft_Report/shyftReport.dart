@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:gmcweb/Antolin_home/Shyft_Report/ui/shyftReportTopSection.dart';
+import 'package:gmcweb/Constants/gmcColors.dart';
+import 'package:gmcweb/Constants/myutility.dart';
 import 'package:intl/intl.dart';
 
 class ShyftReport extends StatefulWidget {
@@ -76,102 +78,120 @@ class _ShyftReportState extends State<ShyftReport> {
     double chartHeight = MediaQuery.of(context).size.height - 180;
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          ShyftReportTopSection(
-              isRunning: true,
-              shiftNumber: '1',
-              oee: '100%',
-              operatorName: 'operatorName',
-              workOrder: 'workOrder'),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: targetController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Enter Target Value',
-                      border: OutlineInputBorder(),
+      body: Container(
+        height: MyUtility(context).height,
+        width: MyUtility(context).width,
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(width: 2, color: GmcColors().antolinBlack),
+          ),
+        ),
+        child: Column(
+          children: [
+            ShyftReportTopSection(
+                isRunning: true,
+                shiftNumber: '1',
+                oee: '100%',
+                operatorName: 'operatorName',
+                workOrder: 'workOrder'),
+            Padding(
+              padding: EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: targetController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        labelText: 'Enter Target Value',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: _updateTargetLine,
-                  child: Text('Update Target'),
-                ),
-              ],
+                  SizedBox(width: 10),
+                  ElevatedButton(
+                    onPressed: _updateTargetLine,
+                    child: Text('Update Target'),
+                  ),
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            height: chartHeight,
-            width: chartWidth,
-            child: Stack(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(25),
-                  child: BarChart(
-                    BarChartData(
-                      maxY: 120,
-                      minY: 0,
-                      barGroups: barGroups,
-                      titlesData: FlTitlesData(
-                        leftTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            reservedSize: 40,
-                            interval: 20,
-                            getTitlesWidget: (value, meta) {
-                              if (value % 20 == 0 && value <= 120) {
-                                return Text(value.toInt().toString());
-                              }
-                              return SizedBox.shrink();
-                            },
+            SizedBox(
+              height: chartHeight,
+              width: chartWidth,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(25),
+                    child: BarChart(
+                      BarChartData(
+                        maxY: 120,
+                        minY: 0,
+                        barGroups: barGroups,
+                        titlesData: FlTitlesData(
+                          leftTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              reservedSize: 40,
+                              interval: 20,
+                              getTitlesWidget: (value, meta) {
+                                if (value % 20 == 0 && value <= 120) {
+                                  return Text(value.toInt().toString());
+                                }
+                                return SizedBox.shrink();
+                              },
+                            ),
+                          ),
+                          topTitles: AxisTitles(
+                              sideTitles: SideTitles(showTitles: false)),
+                          bottomTitles: AxisTitles(
+                            sideTitles: SideTitles(
+                              showTitles: true,
+                              getTitlesWidget: (value, meta) {
+                                return Padding(
+                                  padding: EdgeInsets.only(top: 5),
+                                  child: Text(
+                                    timeLabels[value.toInt()],
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                         ),
-                        topTitles: AxisTitles(
-                            sideTitles: SideTitles(showTitles: false)),
-                        bottomTitles: AxisTitles(
-                          sideTitles: SideTitles(
-                            showTitles: true,
-                            getTitlesWidget: (value, meta) {
-                              return Padding(
-                                padding: EdgeInsets.only(top: 5),
-                                child: Text(
-                                  timeLabels[value.toInt()],
-                                  style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              );
-                            },
+                        gridData:
+                            FlGridData(show: true, drawVerticalLine: false),
+                        borderData: FlBorderData(
+                          show: true,
+                          border: Border(
+                            left: BorderSide(color: Colors.grey, width: 1),
+                            bottom: BorderSide(color: Colors.grey, width: 1),
                           ),
                         ),
+                        barTouchData: BarTouchData(enabled: false),
                       ),
-                      gridData: FlGridData(show: true, drawVerticalLine: false),
-                      borderData: FlBorderData(
-                        show: true,
-                        border: Border(
-                          left: BorderSide(color: Colors.grey, width: 1),
-                          bottom: BorderSide(color: Colors.grey, width: 1),
-                        ),
-                      ),
-                      barTouchData: BarTouchData(enabled: false),
                     ),
                   ),
-                ),
-                CustomPaint(
-                  size: Size(chartWidth, chartHeight),
-                  painter:
-                      DiagonalLinePainter(targetValue, chartHeight, chartWidth),
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20, left: 8),
+                    child: Container(
+                      width: chartWidth - 120,
+                      height: chartHeight - 80,
+                      child: CustomPaint(
+                        size: Size(chartWidth, chartHeight),
+                        painter: DiagonalLinePainter(
+                            targetValue, chartHeight, chartWidth),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -182,10 +202,10 @@ class DiagonalLinePainter extends CustomPainter {
   final double targetValue;
   final double chartHeight;
   final double chartWidth;
-  final double padding; // New padding value
+  final double padding;
 
   DiagonalLinePainter(this.targetValue, this.chartHeight, this.chartWidth,
-      {this.padding = 65});
+      {this.padding = 0});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -194,16 +214,24 @@ class DiagonalLinePainter extends CustomPainter {
       ..strokeWidth = 3
       ..style = PaintingStyle.stroke;
 
-    double startX = padding; // Add padding to prevent it from touching the edge
-    double startY =
-        size.height - padding; // Adjusted start position to avoid overflow
+    // Start position (bottom left)
+    double startX = padding;
+    double startY = size.height - padding;
 
-    double endX =
-        size.width - padding; // Ensuring it doesn’t go past the right edge
-    double endY = ((1 - (targetValue / 120)) * size.height)
-        .clamp(padding, size.height - padding);
+    // End position (top right)
+    double endX = size.width - padding;
 
-    canvas.drawLine(Offset(startX, startY + 18), Offset(endX, endY), paint);
+    // Calculate endY based on the target value
+    double availableHeight =
+        size.height - 2 * padding; // Height available after padding
+    double endY = availableHeight -
+        ((targetValue / 120) * availableHeight); // Scale target value
+
+    // Ensure that endY stays within the bounds of the chart
+    endY = endY.clamp(padding.toDouble(), size.height - padding.toDouble());
+
+    // Draw the line
+    canvas.drawLine(Offset(startX, startY), Offset(endX, endY), paint);
   }
 
   @override
