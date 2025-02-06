@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NavButtons extends StatefulWidget {
   final String imageIcon;
-  final Function() onTap;
+  final Function() onTap; 
   final bool isActive; // Add the isActive parameter
 
   const NavButtons(
