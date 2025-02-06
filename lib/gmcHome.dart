@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/lineMachineListPopup.dart';
-import 'package:gmcweb/Antolin_home/antolinMain.dart';
 import 'package:gmcweb/Antolin_home/antolin_main_2.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_page.dart';
 import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_page.dart';
 import 'package:gmcweb/CommonUi/logedInUser.dart';
 import 'package:gmcweb/Constants/myutility.dart';
-import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Navbar/navBarMain.dart';
 import 'package:gmcweb/Reports/reportsMain.dart';
 import 'package:gmcweb/Users/usersMain.dart';
@@ -26,7 +23,30 @@ class _gmcHomeState extends State<gmcHome> {
     GlobalKey<NavigatorState>(), // Lines
     GlobalKey<NavigatorState>(), // Users
     GlobalKey<NavigatorState>(), // Reports
+    GlobalKey<NavigatorState>(), // Maintenance
+    GlobalKey<NavigatorState>(), // Details
   ];
+
+  void navigatorTo(int keyIndex, Widget page) {
+    print("Switching to Tab: $keyIndex");
+
+    setState(() {
+      _selectedIndex = keyIndex; // Switch to the correct tab
+    });
+
+    final navigatorState = _navigatorKeys[keyIndex].currentState;
+    if (navigatorState == null) {
+      print("NavigatorState is NULL for index $keyIndex!");
+      return;
+    } else {
+      print("NavigatorState found for index $keyIndex!");
+    }
+
+    // Push page inside the correct Navigator, keeping the top & side nav
+    navigatorState.push(
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
 
   void _onTabSelected(int index) {
     if (_selectedIndex == index) {
@@ -64,10 +84,8 @@ class _gmcHomeState extends State<gmcHome> {
                           Navigator(
                             key: _navigatorKeys[0],
                             onGenerateRoute: (settings) => MaterialPageRoute(
-                              builder: (_) => AntolinMain(),
-                              // builder: (_) => AntolinMainTwo(),      keita pages
-                              // builder: (_) => DetailsPage(),         keita pages
-                              // builder: (_) => MaintenancePage(),     keita pages
+                              builder: (_) =>
+                                  AntolinMainTwo(navigateToPage: navigatorTo),
                             ),
                           ),
                           Navigator(
@@ -80,6 +98,18 @@ class _gmcHomeState extends State<gmcHome> {
                             key: _navigatorKeys[2],
                             onGenerateRoute: (settings) => MaterialPageRoute(
                               builder: (_) => ReportsMain(user: currentUser),
+                            ),
+                          ),
+                          Navigator(
+                            key: _navigatorKeys[3],
+                            onGenerateRoute: (settings) => MaterialPageRoute(
+                              builder: (_) => MaintenancePage(),
+                            ),
+                          ),
+                          Navigator(
+                            key: _navigatorKeys[4],
+                            onGenerateRoute: (settings) => MaterialPageRoute(
+                              builder: (_) => DetailsPage(),
                             ),
                           ),
                         ],

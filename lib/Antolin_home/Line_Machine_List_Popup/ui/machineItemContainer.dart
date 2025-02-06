@@ -16,6 +16,9 @@ class MachineItemContainer extends StatelessWidget {
   final String input;
   final String scrap;
   final String rework;
+  final Function() maintenanceTap;
+  final Function() reportTap;
+  final Function() detailsTap;
   const MachineItemContainer(
       {super.key,
       required this.isOnline,
@@ -24,7 +27,10 @@ class MachineItemContainer extends StatelessWidget {
       required this.operationNumber,
       required this.input,
       required this.scrap,
-      required this.rework});
+      required this.rework,
+      required this.maintenanceTap,
+      required this.reportTap,
+      required this.detailsTap});
 
   @override
   Widget build(BuildContext context) {
@@ -170,15 +176,15 @@ class MachineItemContainer extends StatelessWidget {
                       //TO DO ADD ROUTES
                       LineMachinePopupButtons(
                         buttonText: 'MAINTENANCE',
-                        onTap: () {},
+                        onTap: maintenanceTap,
                       ),
                       LineMachinePopupButtons(
                         buttonText: 'SHYFT REPORT',
-                        onTap: () {},
+                        onTap: reportTap,
                       ),
                       LineMachinePopupButtons(
                         buttonText: 'DETAILS',
-                        onTap: () {},
+                        onTap: detailsTap,
                       ),
                     ],
                   )

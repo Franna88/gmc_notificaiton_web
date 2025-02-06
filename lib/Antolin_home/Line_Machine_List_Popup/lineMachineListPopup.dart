@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/ui/machineItemContainer.dart';
 import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/ui/popupLineHeader.dart';
+import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_page.dart';
+import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_page.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LineMachineListPopup extends StatefulWidget {
-  const LineMachineListPopup({super.key});
+  final Function(int, Widget) navigateToPage;
+  LineMachineListPopup({super.key, required this.navigateToPage});
 
   @override
   State<LineMachineListPopup> createState() => _LineMachineListPopupState();
@@ -34,6 +37,21 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
               input: '5700',
               scrap: '34',
               rework: '11',
+              maintenanceTap: () {
+                Navigator.of(context).pop();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  print("Switching to Maintenance Tab...");
+                  widget.navigateToPage(3, MaintenancePage());
+                });
+              },
+              reportTap: () {},
+              detailsTap: () {
+                Navigator.of(context).pop();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  print("Switching to Details Tab...");
+                  widget.navigateToPage(4, DetailsPage());
+                });
+              },
             ),
             const Spacer(),
           ],
