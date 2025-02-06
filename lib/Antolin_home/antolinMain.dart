@@ -266,7 +266,9 @@ class _AntolinMainState extends State<AntolinMain> {
                 const SizedBox(
                   width: 15,
                 ),
-                SidePanelFloorPlan(status: 'offline',),
+                SidePanelFloorPlan(
+                  status: 'offline',
+                ),
                 const SizedBox(
                   width: 14,
                 ),
