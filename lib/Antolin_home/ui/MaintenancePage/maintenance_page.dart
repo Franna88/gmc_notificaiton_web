@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_readings.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/press_force_trend_graph.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/stroke_rate_graph.dart';
+import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_tabs.dart';
 
-class DetailsPage extends StatelessWidget {
-  const DetailsPage({super.key});
+class MaintenancePage extends StatelessWidget {
+  const MaintenancePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +19,7 @@ class DetailsPage extends StatelessWidget {
             children: const [
               DetailsReadings(), // First section
               SizedBox(height: 50), // Adds space between sections
-              PressForceTrendGraph(), // Second section
-              SizedBox(height: 50),
-              StrokeRateGraph(),
+              MaintenanceTabs(),
             ],
           ),
         ),

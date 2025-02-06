@@ -4,8 +4,8 @@ import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PressForceTrendGraph extends StatelessWidget {
-  const PressForceTrendGraph({super.key});
+class StrokeRateGraph extends StatelessWidget {
+  const StrokeRateGraph({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class PressForceTrendGraph extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 40.0),
                     child: Text(
-                      'Press Force Trend',
+                      'Stroke Rate',
                       style: GoogleFonts.poppins(
                         color: GmcColors().antolinOrange,
                         fontSize: 20,
@@ -62,6 +62,68 @@ class PressForceTrendGraph extends StatelessWidget {
                             Colors.green, 'Within Safe Range'),
                         const SizedBox(width: 20),
                         _buildStatusIndicator(Colors.red, 'Overload'),
+                        Spacer(),
+                        Container(
+                          height: MyUtility(context).height * 0.08,
+                          width: MyUtility(context).width * 0.1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Current: ',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    Spacer(),
+                                    Text(
+                                      '14 CPM',
+                                      style: GoogleFonts.poppins(
+                                        color: GmcColors().antolinTeal,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Avg: ',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.black,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Spacer(),
+                                    Text(
+                                      '13 CPM',
+                                      style: GoogleFonts.poppins(
+                                        color: GmcColors().antolinTeal,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -82,7 +144,7 @@ class PressForceTrendGraph extends StatelessWidget {
                             sideTitles: SideTitles(
                               showTitles: true,
                               reservedSize: 40,
-                              interval: 200,
+                              interval: 2,
                               getTitlesWidget: (value, _) {
                                 return Text(
                                   value.toInt().toString(),
@@ -118,12 +180,12 @@ class PressForceTrendGraph extends StatelessWidget {
                         lineBarsData: [
                           LineChartBarData(
                             spots: [
-                              const FlSpot(0, 800),
-                              const FlSpot(1, 1100),
-                              const FlSpot(2, 950),
-                              const FlSpot(3, 1200),
-                              const FlSpot(4, 1400),
-                              const FlSpot(5, 600),
+                              const FlSpot(0, 6),
+                              const FlSpot(1, 8),
+                              const FlSpot(2, 12),
+                              const FlSpot(3, 12),
+                              const FlSpot(4, 6),
+                              const FlSpot(5, 14),
                             ],
                             isCurved: false,
                             barWidth: 3,
@@ -138,7 +200,7 @@ class PressForceTrendGraph extends StatelessWidget {
                         minX: 0,
                         maxX: 5,
                         minY: 0,
-                        maxY: 1600,
+                        maxY: 16,
                       ),
                     ),
                   ),

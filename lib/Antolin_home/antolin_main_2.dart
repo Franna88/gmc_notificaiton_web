@@ -26,6 +26,43 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Container(
+                height: 55,
+                width: MyUtility(context).width - 80,
+                color: GmcColors().antolinBlack,
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 5, bottom: 3),
+                      child: Container(
+                        height: 44,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [
+                              GmcColors().antolinTeal,
+                              Color.fromRGBO(16, 90, 71, 1),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'SIDE PANELS',
+                            style: GoogleFonts.roboto(
+                                color: Colors.white, fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
               // First Section: AspectRatio for Row with 5 Containers
               AspectRatio(
                 aspectRatio: 4 /
