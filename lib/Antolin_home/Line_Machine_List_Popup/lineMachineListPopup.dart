@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/ui/machineItemContainer.dart';
 import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/ui/popupLineHeader.dart';
+import 'package:gmcweb/Antolin_home/Shyft_Report/shyftReport.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_page.dart';
 import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_page.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
@@ -44,7 +45,13 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
                   widget.navigateToPage(3, MaintenancePage());
                 });
               },
-              reportTap: () {},
+              reportTap: () {
+                Navigator.of(context).pop();
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  print("Switching to shyft Tab...");
+                  widget.navigateToPage(5, ShyftReport());
+                });
+              },
               detailsTap: () {
                 Navigator.of(context).pop();
                 WidgetsBinding.instance.addPostFrameCallback((_) {

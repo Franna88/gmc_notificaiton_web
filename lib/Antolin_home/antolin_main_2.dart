@@ -22,7 +22,10 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SizedBox(
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border(left: BorderSide(color: GmcColors().antolinBlack, width: 3))
+        ),
         height: MyUtility(context).height,
         width: MyUtility(context).width,
         child: SingleChildScrollView(
@@ -194,14 +197,11 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                                       context: context,
                                       builder: (context) {
                                         return Dialog(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
+                                          
+                                          backgroundColor: const Color.fromARGB(0, 0, 0, 0),
                                           child: Container(
                                             padding: EdgeInsets.all(20),
-                                            constraints:
-                                                BoxConstraints(maxHeight: 400),
+                                            
                                             child: LineMachineListPopup(
                                                 navigateToPage: widget
                                                     .navigateToPage), // Use correct function

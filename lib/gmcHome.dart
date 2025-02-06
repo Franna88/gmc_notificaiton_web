@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gmcweb/Antolin_home/Shyft_Report/shyftReport.dart';
 import 'package:gmcweb/Antolin_home/antolin_main_2.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_page.dart';
 import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_page.dart';
@@ -25,6 +26,7 @@ class _gmcHomeState extends State<gmcHome> {
     GlobalKey<NavigatorState>(), // Reports
     GlobalKey<NavigatorState>(), // Maintenance
     GlobalKey<NavigatorState>(), // Details
+    GlobalKey<NavigatorState>(), //Shydt Report
   ];
 
   void navigatorTo(int keyIndex, Widget page) {
@@ -110,6 +112,12 @@ class _gmcHomeState extends State<gmcHome> {
                             key: _navigatorKeys[4],
                             onGenerateRoute: (settings) => MaterialPageRoute(
                               builder: (_) => DetailsPage(),
+                            ),
+                          ),
+                          Navigator(
+                            key: _navigatorKeys[5],
+                            onGenerateRoute: (settings) => MaterialPageRoute(
+                              builder: (_) => ShyftReport(),
                             ),
                           ),
                         ],

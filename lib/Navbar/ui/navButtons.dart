@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class NavButtons extends StatefulWidget {
   final String imageIcon;
-  final Function() onTap; 
+  final Function() onTap;
   final bool isActive; // Add the isActive parameter
 
   const NavButtons(
@@ -28,9 +28,7 @@ class _NavButtonsState extends State<NavButtons> {
           width: 55,
           height: 55,
           decoration: BoxDecoration(
-            color: widget.isActive
-                ? GmcColors().antolinTeal
-                : const Color.fromRGBO(
+            color:  const Color.fromRGBO(
                     217, 217, 217, 1), // Change color based on isActive
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
@@ -39,13 +37,12 @@ class _NavButtonsState extends State<NavButtons> {
             ),
           ),
           child: Center(
-            child: Image.asset(
-              widget.imageIcon,
-              color: widget.isActive
-                  ? Colors.white
-                  : GmcColors()
-                      .antolinTeal, // Change icon color based on isActive
-            ),
+            child: Image.asset(widget.imageIcon,
+                color: widget.isActive
+                    ? GmcColors().antolinTeal
+                    : GmcColors()
+                        .antolinBlack // Change icon color based on isActive
+                ),
           ),
         ),
       ),
