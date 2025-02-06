@@ -4,7 +4,9 @@ import 'package:gmcweb/CommonUi/blackTextField.dart';
 import 'package:gmcweb/CommonUi/group_button.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
+import 'package:gmcweb/Login/ui/antolinLoginTextField.dart';
 import 'package:gmcweb/gmcHome.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -59,137 +61,118 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Row(
-        children: [
-          Container(
-            width: 400,
-            height: MyUtility(context).height,
-            color: Colors.white,
-            child: Column(
-              children: [
-                const SizedBox(height: 50),
-                SizedBox(
-                  width: 280,
-                  child: Image.asset(
-                    'images/GMC_Logo_White_Background_Black_Text 1.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  width: 400,
-                  child: Image.asset(
-                    'images/swirl.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
+      body: Container(
+        width: MyUtility(context).width,
+        height: MyUtility(context).height,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/antolinLogin.png'),
+            fit: BoxFit.fill,
           ),
-          SizedBox(
-            width: MyUtility(context).width - 400,
-            height: MyUtility(context).height,
-            child: Stack(
-              children: [
-                Container(
-                  height: MyUtility(context).height,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('images/car_manufacturing.jpeg'),
-                      fit: BoxFit.cover,
+        ),
+        child: Center(
+          child: Container(
+            width: MyUtility(context).width * 0.25,
+            height: MyUtility(context).height * 0.6,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12.0),
+            alignment: Alignment.center,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'ANTOLIN Login',
+                    style: TextStyle(
+                      color: GmcColors().black,
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-                Container(
-                  height: MyUtility(context).height,
-                  color: Colors.black.withOpacity(0.5),
-                ),
-                Center(
-                  child: Container(
-                    width: MyUtility(context).width * 0.32,
-                    height: MyUtility(context).height * 0.65,
-                    child: Stack(
-                      children: [
-                        Positioned(
-                          bottom: 14,
-                          right: 10,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: GmcColors().orange,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            width: MyUtility(context).width * 0.30,
-                            height: MyUtility(context).height * 0.6,
-                          ),
+                   Text(
+                    'Please fill in your details below',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.w400,
+                      letterSpacing: 1.3
+                    ),
+                  ),
+                  Spacer(),
+                  AntolinLoginTextField(
+                    inputController: _loginEmailController,
+                    hintText: '',
+                    labelText: 'Email',
+                    icon: Icon(Icons.person_outline),
+                  ),
+                  // BlackTextField(
+                  //   title: 'Email',
+                  //   controller: _loginEmailController,
+                  // ),
+                  SizedBox(height: MyUtility(context).height * 0.05),
+                  // BlackTextField(
+                  //   title: 'Password',
+                  //   controller: _loginPasswordController,
+                  // ),
+                  AntolinLoginTextField(
+                    inputController: _loginEmailController,
+                    hintText: '',
+                    labelText: 'Password',
+                    icon: Icon(Icons.password),
+                  ),
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: Text(
+                        _errorMessage!,
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 14,
                         ),
-                        Center(
-                          child: Container(
-                            width: MyUtility(context).width * 0.30,
-                            height: MyUtility(context).height * 0.6,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12.0),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0, vertical: 12.0),
-                            alignment: Alignment.center,
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Admin Portal',
-                                    style: TextStyle(
-                                      color: GmcColors().black,
-                                      fontSize: 24.0,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  Spacer(),
-                                  BlackTextField(
-                                    title: 'Email',
-                                    controller: _loginEmailController,
-                                  ),
-                                  SizedBox(
-                                      height: MyUtility(context).height * 0.05),
-                                  BlackTextField(
-                                    title: 'Password',
-                                    controller: _loginPasswordController,
-                                  ),
-                                  if (_errorMessage != null)
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 8.0),
-                                      child: Text(
-                                        _errorMessage!,
-                                        style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  Spacer(),
-                                  _isLoading
-                                      ? CircularProgressIndicator()
-                                      : GroupButton(
-                                          buttonText: 'Login',
-                                          centerText: true,
-                                          onTap: _login,
-                                        ),
-                                ],
+                      ),
+                    ),
+                  Spacer(),
+                  _isLoading
+                      ? CircularProgressIndicator()
+                      : Center(
+                        child: InkWell(
+                            onTap: _login,
+                            child: Container(
+                              height: 60,
+                              width: MyUtility(context).width * 0.18,
+                              decoration: BoxDecoration(
+                                color: GmcColors().antolinBlack,
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'Login',
+                                  style: GoogleFonts.roboto(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
+                      )
+
+                  // GroupButton(
+                  //     buttonText: 'Login',
+                  //     centerText: true,
+                  //     onTap: _login,
+                  //   ),
+                ],
+              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

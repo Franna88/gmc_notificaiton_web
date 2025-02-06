@@ -93,12 +93,14 @@ class TimerContainer extends StatefulWidget {
   final DateTime? startTime;
   final bool isOffline;
   final String lineID;
+  final bool? border;
 
   const TimerContainer({
     super.key,
     required this.startTime,
     required this.isOffline,
     required this.lineID,
+    this.border,
   });
 
   @override
@@ -187,7 +189,7 @@ class _TimerContainerState extends State<TimerContainer> {
       width: 100,
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border.all(),
+        border: widget.border == false ? null : Border.all(),
         borderRadius: BorderRadius.circular(5),
       ),
       alignment: Alignment.center,

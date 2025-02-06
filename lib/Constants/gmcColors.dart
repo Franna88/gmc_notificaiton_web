@@ -9,4 +9,5 @@ class GmcColors {
   var antolinTeal = const Color.fromRGBO(37, 207, 162, 1);
   var antolinBlack = const Color.fromRGBO(61, 59, 60, 1);
   var antolinOrange = const Color.fromRGBO(246, 141, 43, 1);
+  var antolinYellow = const Color.fromRGBO(246, 167, 7, 1);
 }
