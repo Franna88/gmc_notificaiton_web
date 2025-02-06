@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/lineMachineListPopup.dart';
 import 'package:gmcweb/Antolin_home/ui/graphPlaceholders.dart';
 import 'package:gmcweb/Antolin_home/ui/homeMetrixContainers.dart';
 import 'package:gmcweb/Antolin_home/ui/row_one_grey_containers.dart';
@@ -9,7 +10,8 @@ import 'package:google_fonts/google_fonts.dart';
 import '../Constants/myutility.dart';
 
 class AntolinMainTwo extends StatefulWidget {
-  const AntolinMainTwo({super.key});
+  final Function(int, Widget) navigateToPage;
+  const AntolinMainTwo({super.key, required this.navigateToPage});
 
   @override
   State<AntolinMainTwo> createState() => _AntolinMainTwoState();
@@ -186,52 +188,75 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                                     0.08, // Adjust width as a fraction of the parent
                                 heightFactor:
                                     0.1, // Adjust height as a fraction of the parent
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
-                                    // color: Colors.white, //when offline red
-                                    color: Colors.red,
-                                  ),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Image.asset(
-                                          'images/weight.png', // Path to your image
-                                          fit: BoxFit.cover,
-                                          width:
-                                              MyUtility(context).width * 0.01,
-                                          height:
-                                              MyUtility(context).height * 0.02,
-                                        ),
-                                        Text(
-                                          'OP 30.2', // Text inside the red container (optional)
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.005, // Scale font size based on screen width
-                                            fontWeight: FontWeight.bold,
+                                child: InkWell(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return Dialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
-                                        ),
-                                        Text(
-                                          'PRESS RIGHT', // Text inside the red container (optional)
-                                          style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.005, // Scale font size based on screen width
-                                            fontWeight: FontWeight.bold,
+                                          child: Container(
+                                            padding: EdgeInsets.all(20),
+                                            constraints:
+                                                BoxConstraints(maxHeight: 400),
+                                            child: LineMachineListPopup(
+                                                navigateToPage: widget
+                                                    .navigateToPage), // Use correct function
                                           ),
-                                          softWrap:
-                                              true, // Allow the text to wrap onto multiple lines
-                                          overflow: TextOverflow
-                                              .visible, // Ensure the text wraps and doesn't overflow
-                                        ),
-                                      ],
+                                        );
+                                      },
+                                    );
+                                  },
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      // color: Colors.white, //when offline red
+                                      color: Colors.red,
+                                    ),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Image.asset(
+                                            'images/weight.png', // Path to your image
+                                            fit: BoxFit.cover,
+                                            width:
+                                                MyUtility(context).width * 0.01,
+                                            height: MyUtility(context).height *
+                                                0.02,
+                                          ),
+                                          Text(
+                                            'OP 30.2', // Text inside the red container (optional)
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.005, // Scale font size based on screen width
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            'PRESS RIGHT', // Text inside the red container (optional)
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.005, // Scale font size based on screen width
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                            softWrap:
+                                                true, // Allow the text to wrap onto multiple lines
+                                            overflow: TextOverflow
+                                                .visible, // Ensure the text wraps and doesn't overflow
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
