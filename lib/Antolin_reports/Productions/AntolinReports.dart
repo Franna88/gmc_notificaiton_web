@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:gmcweb/Antolin_reports/SidePannels/ProductionReports.dart'; // Import the table widget
+import 'package:gmcweb/Antolin_reports/Productions/ProductionReports.dart';
+// Import the table widget
 
 class AntolinReports extends StatefulWidget {
   const AntolinReports({super.key});
