@@ -4,6 +4,8 @@ import 'package:gmcweb/Antolin_home/Shyft_Report/shyftReport.dart';
 import 'package:gmcweb/Antolin_home/antolin_main_2.dart';
 import 'package:gmcweb/Antolin_home/ui/DetailsPage/details_page.dart';
 import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_page.dart';
+import 'package:gmcweb/Antolin_reports/AntolinRepontsMain.dart';
+
 import 'package:gmcweb/CommonUi/logedInUser.dart';
 import 'package:gmcweb/Constants/myutility.dart';
 import 'package:gmcweb/Navbar/navBarMain.dart';
@@ -99,7 +101,7 @@ class _gmcHomeState extends State<gmcHome> {
                           Navigator(
                             key: _navigatorKeys[2],
                             onGenerateRoute: (settings) => MaterialPageRoute(
-                              builder: (_) => ReportsMain(user: currentUser),
+                              builder: (_) => AntolinReportsMain(),
                             ),
                           ),
                           Navigator(
