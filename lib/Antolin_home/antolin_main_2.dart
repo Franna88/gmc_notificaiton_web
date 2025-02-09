@@ -19,6 +19,42 @@ class AntolinMainTwo extends StatefulWidget {
 }
 
 class _AntolinMainTwoState extends State<AntolinMainTwo> {
+  // Add this function outside build
+  Future<void> _showOrderQtyDialog() async {
+    final TextEditingController orderQtyController = TextEditingController();
+    await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Enter Order Quantity'),
+        content: TextField(
+          controller: orderQtyController,
+          keyboardType: TextInputType.number,
+          decoration: const InputDecoration(
+            hintText: 'Enter quantity in units',
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () async {
+              final qty = orderQtyController.text;
+              await FirebaseFirestore.instance.collection('orders').add({
+                'quantity': qty,
+                'timestamp': FieldValue.serverTimestamp(),
+              });
+              Navigator.pop(context);
+              setState(() {});
+            },
+            child: const Text('Save'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,7 +116,27 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Order Qty',
-                        child: _buildContainerText('320 000', 'UNITS'),
+                        child: GestureDetector(
+                          onTap: _showOrderQtyDialog,
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: FirebaseFirestore.instance
+                                .collection('orders')
+                                .orderBy('timestamp', descending: true)
+                                .limit(1)
+                                .snapshots(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData &&
+                                  snapshot.data!.docs.isNotEmpty) {
+                                final latestOrder = snapshot.data!.docs.first
+                                    .data() as Map<String, dynamic>;
+                                return _buildContainerText(
+                                    latestOrder['quantity'].toString(),
+                                    'UNITS');
+                              }
+                              return _buildContainerText('0', 'UNITS');
+                            },
+                          ),
+                        ),
                       ),
                     ),
                     RowOneGreyContainers(
