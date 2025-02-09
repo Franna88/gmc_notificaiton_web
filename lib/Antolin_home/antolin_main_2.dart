@@ -22,16 +22,31 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
   // Add this function outside build
   Future<void> _showOrderQtyDialog() async {
     final TextEditingController orderQtyController = TextEditingController();
+    final TextEditingController batchController = TextEditingController();
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Enter Order Quantity'),
-        content: TextField(
-          controller: orderQtyController,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(
-            hintText: 'Enter quantity in units',
-          ),
+        title: const Text('Enter Production Details'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: orderQtyController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                hintText: 'Enter quantity in units',
+                labelText: 'Order Quantity',
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextField(
+              controller: batchController,
+              decoration: const InputDecoration(
+                hintText: 'Enter batch number',
+                labelText: 'Batch Number',
+              ),
+            ),
+          ],
         ),
         actions: [
           TextButton(
@@ -40,18 +55,51 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
           ),
           TextButton(
             onPressed: () async {
-              final qty = orderQtyController.text;
-              await FirebaseFirestore.instance.collection('orders').add({
-                'quantity': qty,
+              await FirebaseFirestore.instance.collection('production').add({
+                'orderQuantity': int.tryParse(orderQtyController.text) ?? 0,
+                'totalOut': 0,
+                'totalWaste': 0,
+                'batchNumber':
+                    batchController.text, // Keep as string for batch numbers
+                'target': 0,
                 'timestamp': FieldValue.serverTimestamp(),
               });
               Navigator.pop(context);
-              setState(() {});
             },
             child: const Text('Save'),
           ),
         ],
       ),
+    );
+  }
+
+  // First, create a reusable StreamBuilder function
+  Widget _buildProductionStreamContainer(String field, String unit) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('production')
+          .orderBy('timestamp', descending: true)
+          .limit(1)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return _buildContainerText('0', unit);
+        }
+
+        final latestData =
+            snapshot.data!.docs.first.data() as Map<String, dynamic>;
+        String displayValue;
+
+        if (field == 'batchNumber') {
+          displayValue = latestData[field]?.toString() ?? 'N/A';
+        } else {
+          // Handle numeric fields
+          final value = latestData[field];
+          displayValue = (value is num) ? value.toString() : '0';
+        }
+
+        return _buildContainerText(displayValue, unit);
+      },
     );
   }
 
@@ -118,49 +166,37 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                         header: 'Order Qty',
                         child: GestureDetector(
                           onTap: _showOrderQtyDialog,
-                          child: StreamBuilder<QuerySnapshot>(
-                            stream: FirebaseFirestore.instance
-                                .collection('orders')
-                                .orderBy('timestamp', descending: true)
-                                .limit(1)
-                                .snapshots(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData &&
-                                  snapshot.data!.docs.isNotEmpty) {
-                                final latestOrder = snapshot.data!.docs.first
-                                    .data() as Map<String, dynamic>;
-                                return _buildContainerText(
-                                    latestOrder['quantity'].toString(),
-                                    'UNITS');
-                              }
-                              return _buildContainerText('0', 'UNITS');
-                            },
-                          ),
+                          child: _buildProductionStreamContainer(
+                              'orderQuantity', 'UNITS'),
                         ),
                       ),
                     ),
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Total Out',
-                        child: _buildContainerText('280 000', 'UNITS'),
+                        child: _buildProductionStreamContainer(
+                            'totalOut', 'UNITS'),
                       ),
                     ),
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Total Waste',
-                        child: _buildContainerText('15 000', 'UNITS'),
+                        child: _buildProductionStreamContainer(
+                            'totalWaste', 'UNITS'),
                       ),
                     ),
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Batch Number',
-                        child: _buildContainerText('BATCH 47A', ''),
+                        child:
+                            _buildProductionStreamContainer('batchNumber', ''),
                       ),
                     ),
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Target',
-                        child: _buildContainerText('350 000', 'UNITS'),
+                        child:
+                            _buildProductionStreamContainer('target', 'UNITS'),
                       ),
                     ),
                   ],
