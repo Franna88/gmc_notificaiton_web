@@ -7,6 +7,7 @@ import 'package:gmcweb/Antolin_home/ui/sidePanelFloorPlan.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:async';
 
 import '../Constants/myutility.dart';
 
@@ -19,6 +20,186 @@ class AntolinMainTwo extends StatefulWidget {
 }
 
 class _AntolinMainTwoState extends State<AntolinMainTwo> {
+  StreamSubscription? _systemCountSubscription;
+  Timer? _flickerTimer;
+  bool _showRed = false;
+  StreamSubscription? _shyftProdSubscription;
+  StreamSubscription? _downtimeSubscription;
+
+  // Add these as class variables
+  bool _isCurrentlyOffline = false;
+  String? _currentDowntimeId;
+
+  @override
+  void initState() {
+    super.initState();
+    _listenToSystemCount();
+    _listenToDowntime();
+    _listenToShyftProd();
+    _flickerTimer = Timer.periodic(const Duration(milliseconds: 200), (timer) {
+      if (mounted) {
+        setState(() {
+          _showRed = !_showRed;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _systemCountSubscription?.cancel();
+    _shyftProdSubscription?.cancel();
+    _downtimeSubscription?.cancel();
+    _flickerTimer?.cancel();
+    super.dispose();
+  }
+
+  void _listenToDowntime() {
+    _downtimeSubscription = FirebaseFirestore.instance
+        .collection('systems')
+        .doc('7uiqZnLD4iu5wRLzabpe')
+        .snapshots()
+        .listen((snapshot) async {
+      try {
+        if (!snapshot.exists) return;
+
+        final bool isOnline = snapshot.data()?['online'] ?? true;
+        final String lineId = snapshot.id; // Use document ID as lineId
+
+        // Check if there's already an unresolved record before creating new one
+        if (!isOnline && !_isCurrentlyOffline) {
+          // Check for existing unresolved records
+          final existingQuery = await FirebaseFirestore.instance
+              .collection('downtime')
+              .where('lineId', isEqualTo: lineId)
+              .where('resolved', isEqualTo: false)
+              .get();
+
+          // Only create new record if no unresolved records exist
+          if (existingQuery.docs.isEmpty) {
+            _isCurrentlyOffline = true;
+            final docRef =
+                await FirebaseFirestore.instance.collection('downtime').add({
+              'lineId': lineId,
+              'startTime': FieldValue.serverTimestamp(),
+              'endTime': null,
+              'duration': 0,
+              'user': 'unknown',
+              'resolved': false,
+              'reason': '',
+              'actions': '',
+              'comments': ''
+            });
+            _currentDowntimeId = docRef.id;
+          }
+        }
+        // Going online - update existing record
+        else if (isOnline &&
+            _isCurrentlyOffline &&
+            _currentDowntimeId != null) {
+          final downtimeDoc = await FirebaseFirestore.instance
+              .collection('downtime')
+              .doc(_currentDowntimeId)
+              .get();
+
+          if (downtimeDoc.exists) {
+            final startTime =
+                (downtimeDoc.data()?['startTime'] as Timestamp).toDate();
+            final endTime = DateTime.now();
+            final duration = endTime.difference(startTime).inMinutes;
+
+            await downtimeDoc.reference.update({
+              'endTime': FieldValue.serverTimestamp(),
+              'duration': duration,
+              'resolved': true
+            });
+          }
+
+          // Reset tracking variables
+          _isCurrentlyOffline = false;
+          _currentDowntimeId = null;
+        }
+      } catch (e) {
+        print('Downtime Error: $e');
+        _isCurrentlyOffline = false;
+        _currentDowntimeId = null;
+      }
+    });
+  }
+
+  void _listenToShyftProd() {
+    _shyftProdSubscription = FirebaseFirestore.instance
+        .collection('systems')
+        .doc('7uiqZnLD4iu5wRLzabpe')
+        .snapshots()
+        .listen((snapshot) async {
+      if (!snapshot.exists) return;
+
+      // Get count from systems
+      final String countString = snapshot.data()?['count']?.toString() ?? '0';
+      final int count = int.parse(countString);
+
+      // Get current user
+      final userDoc = await FirebaseFirestore.instance
+          .collection('currentUser')
+          .doc('activeUser')
+          .get();
+
+      final String currentUser = userDoc.data()?['email'] ?? 'unknown';
+
+      // Create new shyftProd record
+      await FirebaseFirestore.instance.collection('shyftProd').add({
+        'lineId': '7uiqZnLD4iu5wRLzabpe',
+        'date': DateTime.now(),
+        'user': currentUser,
+        'count': count
+      });
+    });
+  }
+
+  void _listenToSystemCount() {
+    try {
+      _systemCountSubscription = FirebaseFirestore.instance
+          .collection('systems')
+          .doc('7uiqZnLD4iu5wRLzabpe')
+          .snapshots()
+          .listen((snapshot) async {
+        if (!snapshot.exists) return;
+
+        // Convert count to integer
+        final String countString = snapshot.data()?['count']?.toString() ?? '0';
+        final int count = int.parse(countString);
+
+        // Get the latest production document
+        final productionQuery = await FirebaseFirestore.instance
+            .collection('production')
+            .orderBy('timestamp', descending: true)
+            .limit(1)
+            .get();
+
+        if (productionQuery.docs.isNotEmpty) {
+          final latestProductionDoc = productionQuery.docs.first;
+          final productionData = latestProductionDoc.data();
+          final orderQty = productionData['orderQuantity'] as num? ?? 0;
+
+          // Calculate percentage
+          int percentage = 0;
+          if (orderQty > 0) {
+            percentage = ((count / orderQty) * 100).round();
+          }
+
+          // Update both totalOut and target
+          await latestProductionDoc.reference.update({
+            'totalOut': count,
+            'target': percentage,
+          });
+        }
+      });
+    } catch (e) {
+      print('Firestore Error: $e');
+    }
+  }
+
   // Add this function outside build
   Future<void> _showOrderQtyDialog() async {
     final TextEditingController orderQtyController = TextEditingController();
@@ -99,6 +280,41 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
         }
 
         return _buildContainerText(displayValue, unit);
+      },
+    );
+  }
+
+  // Calculate and display percentage completion
+  Widget _buildCompletionPercentage() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('production')
+          .orderBy('timestamp', descending: true)
+          .limit(1)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return _buildContainerText('0', '%');
+        }
+
+        final latestData =
+            snapshot.data!.docs.first.data() as Map<String, dynamic>;
+        final orderQty = latestData['orderQuantity'] as num? ?? 0;
+        final totalOut = latestData['totalOut'] as num? ?? 0;
+
+        // Calculate percentage
+        int percentage = 0;
+        if (orderQty > 0) {
+          percentage = ((totalOut / orderQty) * 100).round();
+        }
+
+        // Update target field in Firestore
+        FirebaseFirestore.instance
+            .collection('production')
+            .doc(snapshot.data!.docs.first.id)
+            .update({'target': percentage});
+
+        return _buildContainerText(percentage.toString(), '%');
       },
     );
   }
@@ -188,15 +404,14 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Batch Number',
-                        child:
-                            _buildProductionStreamContainer('batchNumber', ''),
+                        child: _buildProductionStreamContainer(
+                            'batchNumber', 'BATCH'),
                       ),
                     ),
                     RowOneGreyContainers(
                       contents: HomeMetrixContainers(
                         header: 'Target',
-                        child:
-                            _buildProductionStreamContainer('target', 'UNITS'),
+                        child: _buildProductionStreamContainer('target', '%'),
                       ),
                     ),
                   ],
@@ -326,7 +541,9 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                                                 BorderRadius.circular(8),
                                             color: isOnline
                                                 ? Colors.white
-                                                : Colors.red,
+                                                : (_showRed
+                                                    ? Colors.red
+                                                    : Colors.white),
                                           ),
                                           child: Center(
                                             child: Column(
