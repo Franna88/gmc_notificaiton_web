@@ -6,6 +6,7 @@ import 'package:gmcweb/Antolin_home/ui/row_one_grey_containers.dart';
 import 'package:gmcweb/Antolin_home/ui/sidePanelFloorPlan.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../Constants/myutility.dart';
 
@@ -213,50 +214,75 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      // color: Colors.white, //when offline red
-                                      color: Colors.red,
                                     ),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Image.asset(
-                                            'images/weight.png', // Path to your image
-                                            fit: BoxFit.cover,
-                                            width:
-                                                MyUtility(context).width * 0.01,
-                                            height: MyUtility(context).height *
-                                                0.02,
+                                    child: StreamBuilder(
+                                      stream: FirebaseFirestore.instance
+                                          .collection('systems')
+                                          .doc('7uiqZnLD4iu5wRLzabpe')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return const CircularProgressIndicator();
+                                        }
+
+                                        final isOnline =
+                                            snapshot.data?['online'] ?? false;
+
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: isOnline
+                                                ? Colors.white
+                                                : Colors.red,
                                           ),
-                                          Text(
-                                            'OP 30.2', // Text inside the red container (optional)
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005, // Scale font size based on screen width
-                                              fontWeight: FontWeight.bold,
+                                          child: Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                Image.asset(
+                                                  'images/weight.png',
+                                                  fit: BoxFit.cover,
+                                                  width:
+                                                      MyUtility(context).width *
+                                                          0.01,
+                                                  height: MyUtility(context)
+                                                          .height *
+                                                      0.02,
+                                                ),
+                                                Text(
+                                                  'OP 30.2',
+                                                  style: GoogleFonts.inter(
+                                                    color: Colors.black,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.006,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'PRESS RIGHT',
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.006,
+                                                    fontWeight: FontWeight.w900,
+                                                  ),
+                                                  softWrap: true,
+                                                  overflow:
+                                                      TextOverflow.visible,
+                                                ),
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            'PRESS RIGHT', // Text inside the red container (optional)
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.005, // Scale font size based on screen width
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                            softWrap:
-                                                true, // Allow the text to wrap onto multiple lines
-                                            overflow: TextOverflow
-                                                .visible, // Ensure the text wraps and doesn't overflow
-                                          ),
-                                        ],
-                                      ),
+                                        );
+                                      },
                                     ),
                                   ),
                                 ),
