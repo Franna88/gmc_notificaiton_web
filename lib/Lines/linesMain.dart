@@ -93,7 +93,7 @@ class _LinesMainState extends State<LinesMain> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : SizedBox(
               width: MyUtility(context).width,
               height: MyUtility(context).height,
@@ -103,7 +103,7 @@ class _LinesMainState extends State<LinesMain> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 30),
-                    StackedHeaders(
+                    const StackedHeaders(
                       constrianedWidth: 450,
                       width: 445,
                       header: 'Lines',

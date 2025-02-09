@@ -23,7 +23,7 @@ class _SidePanelFloorPlanState extends State<SidePanelFloorPlan> {
         decoration: BoxDecoration(
           color: GmcColors().antolinBlack,
           borderRadius: BorderRadius.circular(20),
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage('images/mainPlaceholder.png'),
             fit: BoxFit.fill,
           ),

@@ -22,24 +22,28 @@ class _LogedInUserState extends State<LogedInUser> {
       padding: const EdgeInsets.only(right: 25),
       child: Row(
         children: [
-          Column(crossAxisAlignment: CrossAxisAlignment.end, mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 widget.userName,
-                style:
-                    GoogleFonts.roboto(fontSize: 18, fontWeight: FontWeight.bold),
+                style: GoogleFonts.roboto(
+                    fontSize: 18, fontWeight: FontWeight.bold),
               ),
               // const SizedBox(
               //   height: 8,
               // ),
               Text(
                 widget.userRole,
-                style:
-                    GoogleFonts.roboto(fontSize: 15, fontWeight: FontWeight.w300),
+                style: GoogleFonts.roboto(
+                    fontSize: 15, fontWeight: FontWeight.w300),
               ),
             ],
           ),
-          const SizedBox(width: 20,),
+          const SizedBox(
+            width: 20,
+          ),
           Container(
             height: 50,
             width: 50,
@@ -47,7 +51,7 @@ class _LogedInUserState extends State<LogedInUser> {
               image: DecorationImage(
                 image: AssetImage(widget.userImage),
               ),
-              shape: CircleBorder(),
+              shape: const CircleBorder(),
             ),
           )
         ],

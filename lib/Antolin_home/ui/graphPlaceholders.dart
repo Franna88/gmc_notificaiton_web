@@ -11,7 +11,7 @@ class GraphPlaceholders extends StatelessWidget {
         child: Container(
           height: 300,
           width: 210,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('images/downtimePlaceholder.png'),
               fit: BoxFit.fill,

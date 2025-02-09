@@ -38,12 +38,12 @@ class MachineItemContainer extends StatelessWidget {
       width: 500,
       height: 254,
       decoration: BoxDecoration(
-        color: Color.fromRGBO(234, 234, 234, 1),
+        color: const Color.fromRGBO(234, 234, 234, 1),
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
               offset: Offset(3, 3),
-              color: const Color.fromARGB(255, 153, 153, 153),
+              color: Color.fromARGB(255, 153, 153, 153),
               blurRadius: 2)
         ],
       ),
@@ -96,11 +96,11 @@ class MachineItemContainer extends StatelessWidget {
                             fontWeight: FontWeight.bold, fontSize: 18),
                       ),
                       const Spacer(),
-                      TooltipIcons(iconType: 'maintenance'),
+                      const TooltipIcons(iconType: 'maintenance'),
                       const SizedBox(
                         width: 10,
                       ),
-                      TooltipIcons(iconType: 'faultyPart')
+                      const TooltipIcons(iconType: 'faultyPart')
                     ],
                   ),
                   Padding(

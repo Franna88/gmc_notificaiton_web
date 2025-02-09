@@ -7,6 +7,8 @@ import 'package:gmcweb/Constants/myutility.dart';
 import 'package:intl/intl.dart';
 
 class ShyftReport extends StatefulWidget {
+  const ShyftReport({super.key});
+
   @override
   _ShyftReportState createState() => _ShyftReportState();
 }
@@ -17,12 +19,19 @@ class _ShyftReportState extends State<ShyftReport> {
   double targetValue = 100; // Default target
   int maxEntries = 10; // Number of time intervals visible
   TextEditingController targetController = TextEditingController();
+  bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
     _initializeChart();
     _startUpdatingChart();
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   void _initializeChart() {
@@ -35,15 +44,17 @@ class _ShyftReportState extends State<ShyftReport> {
   }
 
   void _startUpdatingChart() {
-    Timer.periodic(Duration(seconds: 15), (timer) {
+    Timer.periodic(const Duration(seconds: 15), (timer) {
       DateTime now = DateTime.now();
-      setState(() {
-        timeLabels.removeAt(0);
-        timeLabels.add(DateFormat.Hms().format(now));
+      if (!_isDisposed && mounted) {
+        setState(() {
+          timeLabels.removeAt(0);
+          timeLabels.add(DateFormat.Hms().format(now));
 
-        barGroups.removeAt(0);
-        barGroups.add(_generateBar(_getRandomValue(), maxEntries - 1));
-      });
+          barGroups.removeAt(0);
+          barGroups.add(_generateBar(_getRandomValue(), maxEntries - 1));
+        });
+      }
     });
   }
 
@@ -66,10 +77,12 @@ class _ShyftReportState extends State<ShyftReport> {
   }
 
   void _updateTargetLine() {
-    setState(() {
-      double newTarget = double.tryParse(targetController.text) ?? 100;
-      targetValue = newTarget.clamp(0, 120); // Prevent values outside range
-    });
+    if (!_isDisposed && mounted) {
+      setState(() {
+        double newTarget = double.tryParse(targetController.text) ?? 100;
+        targetValue = newTarget.clamp(0, 120); // Prevent values outside range
+      });
+    }
   }
 
   @override
@@ -88,30 +101,30 @@ class _ShyftReportState extends State<ShyftReport> {
         ),
         child: Column(
           children: [
-            ShyftReportTopSection(
+            const ShyftReportTopSection(
                 isRunning: true,
                 shiftNumber: '1',
                 oee: '100%',
                 operatorName: 'operatorName',
                 workOrder: 'workOrder'),
             Padding(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: targetController,
                       keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         labelText: 'Enter Target Value',
                         border: OutlineInputBorder(),
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
+                  const SizedBox(width: 10),
                   ElevatedButton(
                     onPressed: _updateTargetLine,
-                    child: Text('Update Target'),
+                    child: const Text('Update Target'),
                   ),
                 ],
               ),
@@ -123,7 +136,7 @@ class _ShyftReportState extends State<ShyftReport> {
                 alignment: Alignment.center,
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(25),
+                    padding: const EdgeInsets.all(25),
                     child: BarChart(
                       BarChartData(
                         maxY: 120,
@@ -139,21 +152,21 @@ class _ShyftReportState extends State<ShyftReport> {
                                 if (value % 20 == 0 && value <= 120) {
                                   return Text(value.toInt().toString());
                                 }
-                                return SizedBox.shrink();
+                                return const SizedBox.shrink();
                               },
                             ),
                           ),
-                          topTitles: AxisTitles(
+                          topTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
                           bottomTitles: AxisTitles(
                             sideTitles: SideTitles(
                               showTitles: true,
                               getTitlesWidget: (value, meta) {
                                 return Padding(
-                                  padding: EdgeInsets.only(top: 5),
+                                  padding: const EdgeInsets.only(top: 5),
                                   child: Text(
                                     timeLabels[value.toInt()],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 10,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -162,11 +175,11 @@ class _ShyftReportState extends State<ShyftReport> {
                             ),
                           ),
                         ),
-                        gridData:
-                            FlGridData(show: true, drawVerticalLine: false),
+                        gridData: const FlGridData(
+                            show: true, drawVerticalLine: false),
                         borderData: FlBorderData(
                           show: true,
-                          border: Border(
+                          border: const Border(
                             left: BorderSide(color: Colors.grey, width: 1),
                             bottom: BorderSide(color: Colors.grey, width: 1),
                           ),
@@ -177,7 +190,7 @@ class _ShyftReportState extends State<ShyftReport> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20, left: 8),
-                    child: Container(
+                    child: SizedBox(
                       width: chartWidth - 120,
                       height: chartHeight - 80,
                       child: CustomPaint(

@@ -40,8 +40,8 @@ class ProductionTable extends StatelessWidget {
           width: tableWidth,
           color: const Color(0xFF3D3B3C), // Dark Grey Background
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: const [
+          child: const Row(
+            children: [
               Expanded(flex: 2, child: TableHeaderText('Product Type')),
               Expanded(flex: 2, child: TableHeaderText('Batch Number')),
               Expanded(flex: 1, child: TableHeaderText('Order Qty')),

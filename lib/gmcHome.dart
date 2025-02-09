@@ -12,14 +12,14 @@ import 'package:gmcweb/Navbar/navBarMain.dart';
 import 'package:gmcweb/Reports/reportsMain.dart';
 import 'package:gmcweb/Users/usersMain.dart';
 
-class gmcHome extends StatefulWidget {
-  const gmcHome({super.key});
+class GmcHome extends StatefulWidget {
+  const GmcHome({super.key});
 
   @override
-  _gmcHomeState createState() => _gmcHomeState();
+  State<GmcHome> createState() => _GmcHomeState();
 }
 
-class _gmcHomeState extends State<gmcHome> {
+class _GmcHomeState extends State<GmcHome> {
   int _selectedIndex = 0;
 
   final List<GlobalKey<NavigatorState>> _navigatorKeys = [
@@ -79,7 +79,7 @@ class _gmcHomeState extends State<gmcHome> {
               Expanded(
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                         height: 65), // Space for the floating user container
                     Expanded(
                       child: IndexedStack(
@@ -101,19 +101,19 @@ class _gmcHomeState extends State<gmcHome> {
                           Navigator(
                             key: _navigatorKeys[2],
                             onGenerateRoute: (settings) => MaterialPageRoute(
-                              builder: (_) => AntolinReportsMain(),
+                              builder: (_) => const AntolinReportsMain(),
                             ),
                           ),
                           Navigator(
                             key: _navigatorKeys[3],
                             onGenerateRoute: (settings) => MaterialPageRoute(
-                              builder: (_) => MaintenancePage(),
+                              builder: (_) => const MaintenancePage(),
                             ),
                           ),
                           Navigator(
                             key: _navigatorKeys[4],
                             onGenerateRoute: (settings) => MaterialPageRoute(
-                              builder: (_) => DetailsPage(),
+                              builder: (_) => const DetailsPage(),
                             ),
                           ),
                           Navigator(
@@ -144,7 +144,7 @@ class _gmcHomeState extends State<gmcHome> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Image.asset('images/antolinLogo.png', height: 50),
-                  LogedInUser(
+                  const LogedInUser(
                     userName: 'John Smith',
                     userRole: 'Production Manager',
                     userImage: 'images/person.jpg',

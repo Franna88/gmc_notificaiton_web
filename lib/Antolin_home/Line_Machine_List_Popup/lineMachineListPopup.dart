@@ -10,7 +10,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LineMachineListPopup extends StatefulWidget {
   final Function(int, Widget) navigateToPage;
-  LineMachineListPopup({super.key, required this.navigateToPage});
+  const LineMachineListPopup({super.key, required this.navigateToPage});
 
   @override
   State<LineMachineListPopup> createState() => _LineMachineListPopupState();
@@ -26,7 +26,8 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
         color: Colors.white,
         child: Column(
           children: [
-            PopupLineHeader(line: 'Line 1', operation: 'Injection Moulding'),
+            const PopupLineHeader(
+                line: 'Line 1', operation: 'Injection Moulding'),
             const SizedBox(
               height: 20,
             ),
@@ -42,7 +43,7 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
                 Navigator.of(context).pop();
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   print("Switching to Maintenance Tab...");
-                  widget.navigateToPage(3, MaintenancePage());
+                  widget.navigateToPage(3, const MaintenancePage());
                 });
               },
               reportTap: () {
@@ -56,7 +57,7 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
                 Navigator.of(context).pop();
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   print("Switching to Details Tab...");
-                  widget.navigateToPage(4, DetailsPage());
+                  widget.navigateToPage(4, const DetailsPage());
                 });
               },
             ),

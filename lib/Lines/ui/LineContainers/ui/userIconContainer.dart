@@ -12,8 +12,9 @@ class UserIconContainer extends StatelessWidget {
       height: 30,
       width: 200,
       decoration: BoxDecoration(
-        color: Colors.white,
-          border: Border.all(), borderRadius: BorderRadius.circular(5)),
+          color: Colors.white,
+          border: Border.all(),
+          borderRadius: BorderRadius.circular(5)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -23,7 +24,7 @@ class UserIconContainer extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border.all(),
               color: GmcColors().black,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5),
                 bottomLeft: Radius.circular(5),
               ),

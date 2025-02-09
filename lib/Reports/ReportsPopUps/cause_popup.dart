@@ -6,7 +6,7 @@ import 'package:image_network/image_network.dart';
 class CausePopup extends StatelessWidget {
   final Map<String, dynamic> causeData;
 
-  const CausePopup({Key? key, required this.causeData}) : super(key: key);
+  const CausePopup({super.key, required this.causeData});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class CausePopup extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
-                        child: SizedBox(
+                        child: const SizedBox(
                           width: 30,
                           height: 30,
                           child: Icon(Icons.arrow_back, color: Colors.white),

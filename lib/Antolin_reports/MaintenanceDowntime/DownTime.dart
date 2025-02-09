@@ -104,8 +104,8 @@ class DownTimeTable extends StatelessWidget {
         Container(
           color: const Color(0xFF3D3B3C),
           padding: const EdgeInsets.symmetric(vertical: 8),
-          child: Row(
-            children: const [
+          child: const Row(
+            children: [
               Expanded(flex: 2, child: TableHeaderText('Date')),
               Expanded(flex: 2, child: TableHeaderText('Line')),
               Expanded(flex: 2, child: TableHeaderText('Type')),

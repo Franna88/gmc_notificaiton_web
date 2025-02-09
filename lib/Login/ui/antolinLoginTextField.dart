@@ -7,12 +7,12 @@ class AntolinLoginTextField extends StatelessWidget {
   final String labelText;
 
   const AntolinLoginTextField({
-    Key? key,
+    super.key,
     required this.inputController,
     required this.hintText,
     required this.labelText,
     required this.icon,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,18 +43,18 @@ class AntolinLoginTextField extends StatelessWidget {
           fillColor: Colors.transparent,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 0.0, horizontal: 0.0),
-          border: UnderlineInputBorder(
+          border: const UnderlineInputBorder(
             borderSide:
                 BorderSide(color: Color.fromRGBO(0, 30, 100, 1), width: 2.0),
           ),
-          focusedBorder: UnderlineInputBorder(
+          focusedBorder: const UnderlineInputBorder(
             borderSide:
                 BorderSide(color: Color.fromRGBO(0, 30, 100, 1), width: 2.0),
           ),
           errorBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.red, width: 2.0),
           ),
-          enabledBorder: UnderlineInputBorder(
+          enabledBorder: const UnderlineInputBorder(
             borderSide:
                 BorderSide(color: Color.fromRGBO(0, 30, 100, 1), width: 2.0),
           ),

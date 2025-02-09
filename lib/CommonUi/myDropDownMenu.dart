@@ -36,7 +36,7 @@ class _MyDropDownMenuState extends State<MyDropDownMenu> {
         color: Colors.white,
       ),
       child: DropdownMenu<String>(
-        inputDecorationTheme: InputDecorationTheme(
+        inputDecorationTheme: const InputDecorationTheme(
           fillColor: Colors.white,
           focusColor: Colors.white,
           contentPadding: EdgeInsets.only(bottom: 15, left: 5),
@@ -44,12 +44,12 @@ class _MyDropDownMenuState extends State<MyDropDownMenu> {
         ),
         hintText: 'Select',
         textStyle: GoogleFonts.inter(color: Colors.grey),
-        trailingIcon: Icon(
+        trailingIcon: const Icon(
           Icons.keyboard_arrow_down,
           color: Colors.black,
           size: 35,
         ),
-        selectedTrailingIcon: Icon(
+        selectedTrailingIcon: const Icon(
           Icons.keyboard_arrow_up,
           color: Colors.black,
           size: 35,
@@ -69,16 +69,19 @@ class _MyDropDownMenuState extends State<MyDropDownMenu> {
             widget.onChanged!();
           }
         },
-        dropdownMenuEntries: widget.items.map<DropdownMenuEntry<String>>((value) {
+        dropdownMenuEntries:
+            widget.items.map<DropdownMenuEntry<String>>((value) {
           return DropdownMenuEntry<String>(
             value: value,
             label: value,
             style: ButtonStyle(
-             
-              surfaceTintColor: MaterialStateProperty.all(Colors.white),
-              backgroundColor: MaterialStateProperty.all(Colors.white), // Background color
-              overlayColor: MaterialStateProperty.all(Colors.grey[200]), // Hover effect
-              foregroundColor: MaterialStateProperty.all(Colors.black), // Text color
+              surfaceTintColor: WidgetStateProperty.all(Colors.white),
+              backgroundColor:
+                  WidgetStateProperty.all(Colors.white), // Background color
+              overlayColor:
+                  WidgetStateProperty.all(Colors.grey[200]), // Hover effect
+              foregroundColor:
+                  WidgetStateProperty.all(Colors.black), // Text color
             ),
           );
         }).toList(),
@@ -86,4 +89,3 @@ class _MyDropDownMenuState extends State<MyDropDownMenu> {
     );
   }
 }
-

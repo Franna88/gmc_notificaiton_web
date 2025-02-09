@@ -14,13 +14,12 @@ class StackedHeaders extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      
+    return SizedBox(
       height: 50,
       width: constrianedWidth,
       child: Stack(
         children: [
-            Positioned(
+          Positioned(
             bottom: 0,
             right: 0,
             child: Container(
@@ -58,7 +57,6 @@ class StackedHeaders extends StatelessWidget {
               ),
             ),
           ),
-        
         ],
       ),
     );

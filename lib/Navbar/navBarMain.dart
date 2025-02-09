@@ -66,7 +66,7 @@ class _NavBarMainState extends State<NavBarMain> {
           Container(
             height: MyUtility(context).height * 0.50,
             width: 80,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('images/texture.png'),
                 fit: BoxFit.fill,

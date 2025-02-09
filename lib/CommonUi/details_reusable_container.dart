@@ -26,7 +26,7 @@ class DetailsReusableContainer extends StatelessWidget {
           height: MyUtility(context).height * 0.04,
           width: MyUtility(context).height * 0.04,
         ),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(
           text,
           style: GoogleFonts.inter(
@@ -35,11 +35,11 @@ class DetailsReusableContainer extends StatelessWidget {
             fontWeight: FontWeight.w700,
           ),
         ),
-        Spacer(),
+        const Spacer(),
         Container(
           width: MyUtility(context).width * 0.04,
           height: MyUtility(context).height * 0.05,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(8), bottomLeft: Radius.circular(8)),
@@ -60,7 +60,7 @@ class DetailsReusableContainer extends StatelessWidget {
           Container(
             width: MyUtility(context).width * 0.03,
             height: MyUtility(context).height * 0.05,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Colors.black,
               borderRadius: BorderRadius.only(
                   topRight: Radius.circular(8),

@@ -17,25 +17,24 @@ class _LineStatusState extends State<LineStatus> {
       height: 30,
       decoration: BoxDecoration(
         color: widget.isOffline
-              ? Color.fromRGBO(252, 0, 0, 0.25)
-              : Color.fromRGBO(0, 137, 0, 0.25),
+            ? const Color.fromRGBO(252, 0, 0, 0.25)
+            : const Color.fromRGBO(0, 137, 0, 0.25),
         borderRadius: BorderRadius.circular(50),
         border: Border.all(
           width: 1.5,
           color: widget.isOffline
-              ? Color.fromRGBO(252, 0, 0, 1)
-              : Color.fromRGBO(0, 137, 0, 1),
+              ? const Color.fromRGBO(252, 0, 0, 1)
+              : const Color.fromRGBO(0, 137, 0, 1),
         ),
       ),
       child: Center(
         child: Text(
           widget.isOffline ? 'Offline' : 'Online',
           style: GoogleFonts.roboto(
-            color: widget.isOffline
-                ? Color.fromRGBO(252, 0, 0, 1)
-                : Color.fromRGBO(0, 137, 0, 1),
-                fontWeight: FontWeight.bold
-          ),
+              color: widget.isOffline
+                  ? const Color.fromRGBO(252, 0, 0, 1)
+                  : const Color.fromRGBO(0, 137, 0, 1),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );

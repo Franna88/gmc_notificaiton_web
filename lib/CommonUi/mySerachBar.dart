@@ -5,8 +5,7 @@ class MySearchBar extends StatelessWidget {
   final TextEditingController textController;
   final String hintText;
   const MySearchBar(
-      {required this.textController, required this.hintText, Key? key})
-      : super(key: key);
+      {required this.textController, required this.hintText, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,27 +31,27 @@ class MySearchBar extends StatelessWidget {
             //Do something wi
           },
           decoration: InputDecoration(
-            prefixIcon: Image.asset('images/searchIcon.png'),
-            filled: true,
-            fillColor: Colors.white,
-            hintText: hintText,
-            hintStyle:
-                const TextStyle(color: Colors.grey, fontWeight: FontWeight.w300),
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                border: InputBorder.none
-            // border: const OutlineInputBorder(
-            //   borderRadius: BorderRadius.all(Radius.circular(45.0)),
-            // ),
-            // enabledBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(color: GmcColors().black, width: 1.0),
-            //   borderRadius: BorderRadius.all(Radius.circular(45.0)),
-            // ),
-            // focusedBorder: OutlineInputBorder(
-            //   borderSide: BorderSide(color: GmcColors().black, width: 1.5),
-            //   borderRadius: BorderRadius.all(Radius.circular(45.0)),
-            // ),
-          ),
+              prefixIcon: Image.asset('images/searchIcon.png'),
+              filled: true,
+              fillColor: Colors.white,
+              hintText: hintText,
+              hintStyle: const TextStyle(
+                  color: Colors.grey, fontWeight: FontWeight.w300),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+              border: InputBorder.none
+              // border: const OutlineInputBorder(
+              //   borderRadius: BorderRadius.all(Radius.circular(45.0)),
+              // ),
+              // enabledBorder: OutlineInputBorder(
+              //   borderSide: BorderSide(color: GmcColors().black, width: 1.0),
+              //   borderRadius: BorderRadius.all(Radius.circular(45.0)),
+              // ),
+              // focusedBorder: OutlineInputBorder(
+              //   borderSide: BorderSide(color: GmcColors().black, width: 1.5),
+              //   borderRadius: BorderRadius.all(Radius.circular(45.0)),
+              // ),
+              ),
         ),
       ),
     );

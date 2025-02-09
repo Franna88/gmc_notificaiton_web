@@ -13,7 +13,7 @@ class MachineStatus extends StatelessWidget {
       width: 80,
       decoration: BoxDecoration(
         color: GmcColors().antolinBlack,
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           bottomRight: Radius.circular(10),
         ),
       ),

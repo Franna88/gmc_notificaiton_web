@@ -19,42 +19,58 @@ class UsersMain extends StatefulWidget {
 
 class _UsersMainState extends State<UsersMain> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
   List<Map<String, String>> _users = [];
   bool _isLoading = true;
+  bool _isDisposed = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchUsers(); // Fetch users from Firebase on initialization
+    _fetchUsers();
+  }
+
+  @override
+  void dispose() {
+    _isDisposed = true;
+    super.dispose();
   }
 
   Future<void> _fetchUsers() async {
+    if (_isDisposed) return;
+
     try {
       final querySnapshot = await _firestore.collection('users').get();
+      if (_isDisposed) return;
+
       final fetchedUsers = querySnapshot.docs.map((doc) {
         final data = doc.data();
         return {
-          'name': data['name'] as String ?? '',
-          'email': data['email'] as String ?? '',
-          'role': data['role'] as String ?? '',
+          'name': data['name'] as String? ?? '',
+          'email': data['email'] as String? ?? '',
+          'role': data['role'] as String? ?? '',
         };
       }).toList();
 
-      setState(() {
-        _users = fetchedUsers;
-        _isLoading = false;
-      });
+      if (mounted && !_isDisposed) {
+        setState(() {
+          _users = fetchedUsers;
+          _isLoading = false;
+        });
+      }
     } catch (e) {
       print('Error fetching users: $e');
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted && !_isDisposed) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
   Future<void> _addUserToFirebase(
       String name, String email, String role) async {
+    if (_isDisposed) return;
+
     try {
       // Add user to Firestore
       await _firestore.collection('users').add({
@@ -63,8 +79,10 @@ class _UsersMainState extends State<UsersMain> {
         'role': role,
       });
 
-      // Refresh the user list
-      await _fetchUsers();
+      // Only refresh if not disposed
+      if (!_isDisposed) {
+        await _fetchUsers();
+      }
     } catch (e) {
       print('Error adding user: $e');
     }
@@ -97,7 +115,7 @@ class _UsersMainState extends State<UsersMain> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 30),
-              StackedHeaders(
+              const StackedHeaders(
                   constrianedWidth: 450, width: 445, header: 'Users'),
               const SizedBox(height: 30),
               Align(

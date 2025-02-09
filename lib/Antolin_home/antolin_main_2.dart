@@ -24,8 +24,8 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
       backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
-          border: Border(left: BorderSide(color: GmcColors().antolinBlack, width: 3))
-        ),
+            border: Border(
+                left: BorderSide(color: GmcColors().antolinBlack, width: 3))),
         height: MyUtility(context).height,
         width: MyUtility(context).width,
         child: SingleChildScrollView(
@@ -48,7 +48,7 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                             end: Alignment.centerRight,
                             colors: [
                               GmcColors().antolinTeal,
-                              Color.fromRGBO(16, 90, 71, 1),
+                              const Color.fromRGBO(16, 90, 71, 1),
                             ],
                           ),
                           borderRadius: BorderRadius.circular(8),
@@ -183,7 +183,7 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                             ),
                             // Red container positioned slightly down in the middle
                             Align(
-                              alignment: Alignment(
+                              alignment: const Alignment(
                                   0.03, 0.335), // Positioning slightly down
                               child: FractionallySizedBox(
                                 alignment: Alignment.center,
@@ -197,11 +197,11 @@ class _AntolinMainTwoState extends State<AntolinMainTwo> {
                                       context: context,
                                       builder: (context) {
                                         return Dialog(
-                                          
-                                          backgroundColor: const Color.fromARGB(0, 0, 0, 0),
+                                          backgroundColor:
+                                              const Color.fromARGB(0, 0, 0, 0),
                                           child: Container(
-                                            padding: EdgeInsets.all(20),
-                                            
+                                            padding: const EdgeInsets.all(20),
+
                                             child: LineMachineListPopup(
                                                 navigateToPage: widget
                                                     .navigateToPage), // Use correct function

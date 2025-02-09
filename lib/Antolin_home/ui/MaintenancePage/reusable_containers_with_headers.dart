@@ -23,7 +23,7 @@ class ReusableContainersWithHeaders extends StatelessWidget {
           width: customWidth,
           height: MyUtility(context).height * 0.05,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(8), topLeft: Radius.circular(8)),
             color: GmcColors().antolinBlack,
           ),
@@ -48,7 +48,7 @@ class ReusableContainersWithHeaders extends StatelessWidget {
         Container(
           width: customWidth,
           height: MyUtility(context).height * 0.3,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
                 bottomRight: Radius.circular(8),
                 bottomLeft: Radius.circular(8)),

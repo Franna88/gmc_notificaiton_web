@@ -1,10 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gmcweb/CommonUi/blackTextField.dart';
-import 'package:gmcweb/CommonUi/stackedHeaders.dart';
-import 'package:google_fonts/google_fonts.dart';
-
-import '../../CommonUi/smallButtons.dart';
-import '../../Constants/gmcColors.dart';
 
 class AddUserPopup extends StatelessWidget {
   final Function(String name, String email, String password, String role)

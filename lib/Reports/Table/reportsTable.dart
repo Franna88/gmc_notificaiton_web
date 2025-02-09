@@ -75,11 +75,6 @@ class _ReportsTableState extends State<ReportsTable> {
   void showResolvePopup(
       BuildContext context, Map<String, dynamic> resolutionData) {
     // Define this function to show the resolve popup
-    if (ResolvePopup == null) {
-      // Handle the case where no cause data is available
-      print('Cause data is null.');
-      return;
-    }
     showDialog(
       context: context,
       builder: (BuildContext context) {

@@ -22,12 +22,12 @@ class MaintenancePage extends StatelessWidget {
             left: BorderSide(width: 3, color: GmcColors().antolinBlack),
           ),
         ),
-        child: SingleChildScrollView(
+        child: const SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 DetailsReadings(), // First section
                 SizedBox(height: 50), // Adds space between sections
                 MaintenanceTabs(),

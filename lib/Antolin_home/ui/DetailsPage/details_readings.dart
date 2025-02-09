@@ -20,7 +20,7 @@ class DetailsReadings extends StatelessWidget {
               height: MyUtility(context).height * 0.6,
               fit: BoxFit.cover,
             ),
-            SizedBox(
+            const SizedBox(
               width: 20,
             ),
             Column(
@@ -49,7 +49,7 @@ class DetailsReadings extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   width: MyUtility(context).width * 0.26,
                   height: MyUtility(context).height * 0.26,
@@ -69,15 +69,15 @@ class DetailsReadings extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
                             vertical: 4.0,
                           ),
                           child: Divider(
                             color: Colors.white,
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment
                                 .spaceEvenly, // Evenly spaces remaining texts
@@ -106,7 +106,7 @@ class DetailsReadings extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Container(
                   width: MyUtility(context).width * 0.26,
                   height: MyUtility(context).height * 0.26,
@@ -126,15 +126,15 @@ class DetailsReadings extends StatelessWidget {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
                             vertical: 4.0,
                           ),
                           child: Divider(
                             color: Colors.white,
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment
                                 .spaceEvenly, // Evenly spaces remaining texts
@@ -167,7 +167,7 @@ class DetailsReadings extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
@@ -191,8 +191,8 @@ class DetailsReadings extends StatelessWidget {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
+                    const Padding(
+                      padding: EdgeInsets.symmetric(
                         vertical: 4.0,
                       ),
                       child: Divider(
@@ -212,7 +212,7 @@ class DetailsReadings extends StatelessWidget {
                               Container(
                                 width: MyUtility(context).width * 0.2,
                                 height: MyUtility(context).height * 0.05,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.redAccent,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(8),
@@ -222,8 +222,8 @@ class DetailsReadings extends StatelessWidget {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.warning_amber_outlined),
-                                      Spacer(),
+                                      const Icon(Icons.warning_amber_outlined),
+                                      const Spacer(),
                                       Text(
                                         'Warning High Stroke Rate',
                                         style: GoogleFonts.inter(
@@ -232,7 +232,7 @@ class DetailsReadings extends StatelessWidget {
                                           fontWeight: FontWeight.normal,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                     ],
                                   ),
                                 ),
@@ -240,7 +240,7 @@ class DetailsReadings extends StatelessWidget {
                               Container(
                                 width: MyUtility(context).width * 0.15,
                                 height: MyUtility(context).height * 0.05,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(8),
@@ -283,14 +283,14 @@ class DetailsReadings extends StatelessWidget {
                               )
                             ],
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
                                 width: MyUtility(context).width * 0.2,
                                 height: MyUtility(context).height * 0.05,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.redAccent,
                                   borderRadius: BorderRadius.only(
                                       topLeft: Radius.circular(8),
@@ -300,8 +300,8 @@ class DetailsReadings extends StatelessWidget {
                                   padding: const EdgeInsets.all(4.0),
                                   child: Row(
                                     children: [
-                                      Icon(Icons.warning_amber_outlined),
-                                      Spacer(),
+                                      const Icon(Icons.warning_amber_outlined),
+                                      const Spacer(),
                                       Text(
                                         'Warning High Stroke Rate',
                                         style: GoogleFonts.inter(
@@ -310,7 +310,7 @@ class DetailsReadings extends StatelessWidget {
                                           fontWeight: FontWeight.normal,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                     ],
                                   ),
                                 ),
@@ -318,7 +318,7 @@ class DetailsReadings extends StatelessWidget {
                               Container(
                                 width: MyUtility(context).width * 0.15,
                                 height: MyUtility(context).height * 0.05,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.only(
                                       topRight: Radius.circular(8),

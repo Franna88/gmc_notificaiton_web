@@ -41,7 +41,7 @@ class _LoginState extends State<Login> {
       // Navigate to the home screen on successful login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => gmcHome()),
+        MaterialPageRoute(builder: (context) => const GmcHome()),
       );
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -64,7 +64,7 @@ class _LoginState extends State<Login> {
       body: Container(
         width: MyUtility(context).width,
         height: MyUtility(context).height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('images/antolinLogin.png'),
             fit: BoxFit.fill,
@@ -95,21 +95,20 @@ class _LoginState extends State<Login> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                   Text(
+                  const Text(
                     'Please fill in your details below',
                     style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 1.3
-                    ),
+                        color: Colors.grey,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 1.3),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   AntolinLoginTextField(
                     inputController: _loginEmailController,
                     hintText: '',
                     labelText: 'Email',
-                    icon: Icon(Icons.person_outline),
+                    icon: const Icon(Icons.person_outline),
                   ),
                   // BlackTextField(
                   //   title: 'Email',
@@ -124,24 +123,24 @@ class _LoginState extends State<Login> {
                     inputController: _loginEmailController,
                     hintText: '',
                     labelText: 'Password',
-                    icon: Icon(Icons.password),
+                    icon: const Icon(Icons.password),
                   ),
                   if (_errorMessage != null)
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(
                         _errorMessage!,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.red,
                           fontSize: 14,
                         ),
                       ),
                     ),
-                  Spacer(),
+                  const Spacer(),
                   _isLoading
-                      ? CircularProgressIndicator()
+                      ? const CircularProgressIndicator()
                       : Center(
-                        child: InkWell(
+                          child: InkWell(
                             onTap: _login,
                             child: Container(
                               height: 60,
@@ -161,7 +160,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                      )
+                        )
 
                   // GroupButton(
                   //     buttonText: 'Login',

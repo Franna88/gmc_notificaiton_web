@@ -9,13 +9,13 @@ class BlackTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final double? width; // Optional width property
   const BlackTextField({
-    Key? key,
+    super.key,
     required this.title,
     required this.controller,
     this.obscureText = false,
     this.keyboardType = TextInputType.text,
     this.width, // Optional parameter for width
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +37,6 @@ class BlackTextField extends StatelessWidget {
             style: GoogleFonts.roboto(
               fontWeight: FontWeight.normal,
               color: Colors.white,
-              
             ),
             decoration: InputDecoration(
               filled: true,
@@ -45,17 +44,17 @@ class BlackTextField extends StatelessWidget {
               border: OutlineInputBorder(
                 borderSide: BorderSide(color: GmcColors().black),
                 borderRadius:
-                    BorderRadius.all(Radius.circular(6)), // Border radius
+                    const BorderRadius.all(Radius.circular(6)), // Border radius
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: GmcColors().black),
                 borderRadius:
-                    BorderRadius.all(Radius.circular(6)), // Border radius
+                    const BorderRadius.all(Radius.circular(6)), // Border radius
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: GmcColors().black),
                 borderRadius:
-                    BorderRadius.all(Radius.circular(6)), // Border radius
+                    const BorderRadius.all(Radius.circular(6)), // Border radius
               ),
             ),
           ),

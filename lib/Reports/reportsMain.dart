@@ -35,7 +35,7 @@ class _ReportsMainState extends State<ReportsMain> {
               const SizedBox(
                 height: 30,
               ),
-              StackedHeaders(
+              const StackedHeaders(
                   constrianedWidth: 450, width: 445, header: 'Users'),
               const SizedBox(
                 height: 15,
@@ -49,7 +49,7 @@ class _ReportsMainState extends State<ReportsMain> {
                   ),
                   MyDropDownMenu(
                       customSize: 300,
-                      items: [
+                      items: const [
                         'January',
                         'February',
                         'March',
@@ -69,7 +69,7 @@ class _ReportsMainState extends State<ReportsMain> {
               const SizedBox(
                 height: 25,
               ),
-              ReportsTable()
+              const ReportsTable()
             ],
           ),
         ),

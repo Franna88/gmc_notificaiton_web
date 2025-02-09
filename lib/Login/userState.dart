@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gmcweb/Lines/linesMain.dart';
 import 'package:gmcweb/Login/login.dart';
 import 'package:gmcweb/gmcHome.dart';
 
@@ -42,7 +41,7 @@ class _UserStateState extends State<UserState> {
         if (userSnapshot.hasData) {
           // User is logged in
           print('User is logged in: ${userSnapshot.data?.email}');
-          return const gmcHome();
+          return const GmcHome();
           //return LinesMain();
         }
 

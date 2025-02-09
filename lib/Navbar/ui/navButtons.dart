@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class NavButtons extends StatefulWidget {
   final String imageIcon;
@@ -28,8 +27,8 @@ class _NavButtonsState extends State<NavButtons> {
           width: 55,
           height: 55,
           decoration: BoxDecoration(
-            color:  const Color.fromRGBO(
-                    217, 217, 217, 1), // Change color based on isActive
+            color: const Color.fromRGBO(
+                217, 217, 217, 1), // Change color based on isActive
             borderRadius: BorderRadius.circular(15),
             border: Border.all(
               width: 1.5,

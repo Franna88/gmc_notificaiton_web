@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class FilterRow extends StatelessWidget {
+  const FilterRow({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -9,7 +11,7 @@ class FilterRow extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _buildDateField(context),
-          Text("TO", style: TextStyle(fontSize: 16)),
+          const Text("TO", style: TextStyle(fontSize: 16)),
           _buildDateField(context),
           _buildDropdown("Type", Icons.filter_list),
           _buildDropdown("Shift", Icons.filter_list),
@@ -25,7 +27,7 @@ class FilterRow extends StatelessWidget {
       height: 40, // Shorter height
       child: TextField(
         decoration: InputDecoration(
-          suffixIcon: Icon(Icons.calendar_today, size: 18),
+          suffixIcon: const Icon(Icons.calendar_today, size: 18),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4), // Square corners
           ),
@@ -52,7 +54,8 @@ class FilterRow extends StatelessWidget {
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4), // Square corners
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           suffixIcon: Icon(icon, size: 18), // Filter icon
         ),
         hint: Text(label),
@@ -73,7 +76,7 @@ class FilterRow extends StatelessWidget {
       height: 40, // Shorter height
       child: TextField(
         decoration: InputDecoration(
-          suffixIcon: Icon(Icons.search, size: 20),
+          suffixIcon: const Icon(Icons.search, size: 20),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10), // Rounded corners
           ),

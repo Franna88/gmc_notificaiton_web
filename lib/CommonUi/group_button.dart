@@ -7,12 +7,12 @@ class GroupButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool centerText; // Added conditional parameter
 
-  GroupButton({
-    Key? key,
+  const GroupButton({
+    super.key,
     required this.buttonText,
     required this.onTap,
     this.centerText = false, // Default is false
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

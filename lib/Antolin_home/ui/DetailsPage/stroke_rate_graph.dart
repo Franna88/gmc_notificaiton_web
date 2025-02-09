@@ -62,7 +62,7 @@ class StrokeRateGraph extends StatelessWidget {
                             Colors.green, 'Within Safe Range'),
                         const SizedBox(width: 20),
                         _buildStatusIndicator(Colors.red, 'Overload'),
-                        Spacer(),
+                        const Spacer(),
                         Container(
                           height: MyUtility(context).height * 0.08,
                           width: MyUtility(context).width * 0.1,
@@ -86,7 +86,7 @@ class StrokeRateGraph extends StatelessWidget {
                                         fontWeight: FontWeight.normal,
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     Text(
                                       '14 CPM',
                                       style: GoogleFonts.poppins(
@@ -97,7 +97,7 @@ class StrokeRateGraph extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8),
+                                const SizedBox(height: 8),
                                 Row(
                                   children: [
                                     Text(
@@ -108,8 +108,8 @@ class StrokeRateGraph extends StatelessWidget {
                                         fontWeight: FontWeight.normal,
                                       ),
                                     ),
-                                    SizedBox(width: 8),
-                                    Spacer(),
+                                    const SizedBox(width: 8),
+                                    const Spacer(),
                                     Text(
                                       '13 CPM',
                                       style: GoogleFonts.poppins(
@@ -171,9 +171,9 @@ class StrokeRateGraph extends StatelessWidget {
                               },
                             ),
                           ),
-                          rightTitles: AxisTitles(
+                          rightTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
-                          topTitles: AxisTitles(
+                          topTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
                         ),
                         borderData: FlBorderData(show: false),
@@ -194,7 +194,7 @@ class StrokeRateGraph extends StatelessWidget {
                               show: true,
                               color: Colors.greenAccent.withOpacity(0.3),
                             ),
-                            dotData: FlDotData(show: false),
+                            dotData: const FlDotData(show: false),
                           ),
                         ],
                         minX: 0,

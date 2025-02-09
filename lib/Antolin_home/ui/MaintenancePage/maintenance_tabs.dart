@@ -40,7 +40,7 @@ class MaintenanceTabs extends StatelessWidget {
                               end: Alignment.centerRight,
                               colors: [
                                 GmcColors().antolinTeal,
-                                Color.fromRGBO(16, 90, 71, 1),
+                                const Color.fromRGBO(16, 90, 71, 1),
                               ],
                             ),
                             borderRadius: BorderRadius.circular(8),
@@ -78,14 +78,14 @@ class MaintenanceTabs extends StatelessWidget {
                           width: MyUtility(context).width * 0.06,
                           customText: 'SHIFT',
                           whiteContents: '1'),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       ReusableSmallGreyContainer(
                         width: MyUtility(context).width * 0.14,
                         customText: 'DOWNTIME',
                         whiteContents: '19 : 00',
                         addIcon: true,
                       ),
-                      Spacer(),
+                      const Spacer(),
                       ReusableSmallGreyContainer(
                         width: MyUtility(context).width * 0.12,
                         customText: '14 JAN, TUE',
@@ -93,7 +93,7 @@ class MaintenanceTabs extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       ReusableContainersWithHeaders(
@@ -117,7 +117,7 @@ class MaintenanceTabs extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       ReusableContainersWithHeaders(
                         customText: 'Attending Crew',
                         customWidth: MyUtility(context).width * 0.5,

@@ -6,8 +6,7 @@ import 'package:image_network/image_network.dart';
 class ResolvePopup extends StatelessWidget {
   final Map<String, dynamic> resolutionData;
 
-  const ResolvePopup({Key? key, required this.resolutionData})
-      : super(key: key);
+  const ResolvePopup({super.key, required this.resolutionData});
 
   @override
   Widget build(BuildContext context) {

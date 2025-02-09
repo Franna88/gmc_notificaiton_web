@@ -109,9 +109,9 @@ class PressForceTrendGraph extends StatelessWidget {
                               },
                             ),
                           ),
-                          rightTitles: AxisTitles(
+                          rightTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
-                          topTitles: AxisTitles(
+                          topTitles: const AxisTitles(
                               sideTitles: SideTitles(showTitles: false)),
                         ),
                         borderData: FlBorderData(show: false),
@@ -132,7 +132,7 @@ class PressForceTrendGraph extends StatelessWidget {
                               show: true,
                               color: Colors.greenAccent.withOpacity(0.3),
                             ),
-                            dotData: FlDotData(show: false),
+                            dotData: const FlDotData(show: false),
                           ),
                         ],
                         minX: 0,

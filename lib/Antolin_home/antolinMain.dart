@@ -39,7 +39,7 @@ class _AntolinMainState extends State<AntolinMain> {
                         end: Alignment.centerRight,
                         colors: [
                           GmcColors().antolinTeal,
-                          Color.fromRGBO(16, 90, 71, 1),
+                          const Color.fromRGBO(16, 90, 71, 1),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -245,31 +245,31 @@ class _AntolinMainState extends State<AntolinMain> {
           const SizedBox(
             height: 15,
           ),
-          Expanded(
+          const Expanded(
             child: Row(
               children: [
-                const SizedBox(
+                SizedBox(
                   width: 15,
                 ),
                 Column(
                   children: [
                     GraphPlaceholders(),
-                    const SizedBox(
+                    SizedBox(
                       height: 15,
                     ),
                     GraphPlaceholders(),
-                    const SizedBox(
+                    SizedBox(
                       width: 15,
                     ),
                   ],
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 15,
                 ),
                 SidePanelFloorPlan(
                   status: 'offline',
                 ),
-                const SizedBox(
+                SizedBox(
                   width: 14,
                 ),
               ],
