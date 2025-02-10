@@ -55,7 +55,6 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
                         // Get the online status directly from the document
                         isOnline = systemSnapshot.data!.get('online') ?? false;
                       }
-
                       return MachineItemContainer(
                         isOnline: isOnline,
                         machineImage: 'images/dummyImage.png',

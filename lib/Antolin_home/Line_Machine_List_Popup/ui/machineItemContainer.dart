@@ -34,40 +34,77 @@ class MachineItemContainer extends StatelessWidget {
       required this.detailsTap});
 
   Widget _buildDowntimeDisplay() {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('downtime')
-          .where('lineId', isEqualTo: '7uiqZnLD4iu5wRLzabpe')
-          .limit(1)
-          .snapshots(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return const Text('00:00', style: TextStyle(color: Colors.green));
-        }
+    // Only run StreamBuilder when line is offline
+    if (!isOnline) {
+      return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('downtime')
+            .where('lineId', isEqualTo: '7uiqZnLD4iu5wRLzabpe')
+            .limit(1)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Text('00:00',
+                style: GoogleFonts.inter(
+                    color: Colors.green, fontWeight: FontWeight.w500));
+          }
 
-        if (snapshot.data!.docs.isEmpty) {
-          return const Text('00:00', style: TextStyle(color: Colors.green));
-        }
+          final downtimeDoc = snapshot.data!.docs.first;
+          final startTime = (downtimeDoc['startTime'] as Timestamp).toDate();
+          final now = DateTime.now();
+          final difference = now.difference(startTime);
 
-        final downtimeDoc = snapshot.data!.docs.first;
-        final startTime = (downtimeDoc['startTime'] as Timestamp).toDate();
-        final endTime = downtimeDoc['endTime'] != null
-            ? (downtimeDoc['endTime'] as Timestamp).toDate()
-            : DateTime.now();
+          final minutes = difference.inMinutes;
+          final seconds = difference.inSeconds % 60;
+          final formattedTime =
+              '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
 
-        final difference = endTime.difference(startTime);
-        final minutes = difference.inMinutes;
-        final seconds = difference.inSeconds % 60;
-        final formattedTime =
-            '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+          // Update Firestore since line is offline
+          FirebaseFirestore.instance
+              .collection('downtime')
+              .doc(downtimeDoc.id)
+              .update({
+            'endTime': Timestamp.now(),
+            'duration': difference.inSeconds,
+          });
 
-        return Text(
-          formattedTime,
-          style:
-              GoogleFonts.inter(color: Colors.red, fontWeight: FontWeight.w500),
-        );
-      },
-    );
+          return Text(
+            formattedTime,
+            style: GoogleFonts.inter(
+                color: Colors.red, fontWeight: FontWeight.w500),
+          );
+        },
+      );
+    } else {
+      // When online, just display the stored duration
+      return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('downtime')
+            .where('lineId', isEqualTo: '7uiqZnLD4iu5wRLzabpe')
+            .limit(1)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Text('00:00',
+                style: GoogleFonts.inter(
+                    color: Colors.green, fontWeight: FontWeight.w500));
+          }
+
+          final downtimeDoc = snapshot.data!.docs.first;
+          final duration = downtimeDoc['duration'] as int;
+          final minutes = duration ~/ 60;
+          final seconds = duration % 60;
+          final formattedTime =
+              '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+
+          return Text(
+            formattedTime,
+            style: GoogleFonts.inter(
+                color: Colors.green, fontWeight: FontWeight.w500),
+          );
+        },
+      );
+    }
   }
 
   @override
