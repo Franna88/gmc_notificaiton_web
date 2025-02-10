@@ -7,13 +7,14 @@ import 'package:gmcweb/Antolin_home/Line_Machine_List_Popup/ui/container_Ui/tool
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Lines/ui/LineContainers/ui/timerContainer.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MachineItemContainer extends StatelessWidget {
   final String machineImage;
   final bool isOnline;
   final String machineName;
   final String operationNumber;
-  final String input;
+  final String output;
   final String scrap;
   final String rework;
   final Function() maintenanceTap;
@@ -25,12 +26,49 @@ class MachineItemContainer extends StatelessWidget {
       required this.machineImage,
       required this.machineName,
       required this.operationNumber,
-      required this.input,
+      required this.output,
       required this.scrap,
       required this.rework,
       required this.maintenanceTap,
       required this.reportTap,
       required this.detailsTap});
+
+  Widget _buildDowntimeDisplay() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('downtime')
+          .where('lineId', isEqualTo: '7uiqZnLD4iu5wRLzabpe')
+          .limit(1)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return const Text('00:00', style: TextStyle(color: Colors.green));
+        }
+
+        if (snapshot.data!.docs.isEmpty) {
+          return const Text('00:00', style: TextStyle(color: Colors.green));
+        }
+
+        final downtimeDoc = snapshot.data!.docs.first;
+        final startTime = (downtimeDoc['startTime'] as Timestamp).toDate();
+        final endTime = downtimeDoc['endTime'] != null
+            ? (downtimeDoc['endTime'] as Timestamp).toDate()
+            : DateTime.now();
+
+        final difference = endTime.difference(startTime);
+        final minutes = difference.inMinutes;
+        final seconds = difference.inSeconds % 60;
+        final formattedTime =
+            '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+
+        return Text(
+          formattedTime,
+          style:
+              GoogleFonts.inter(color: Colors.red, fontWeight: FontWeight.w500),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -125,9 +163,9 @@ class MachineItemContainer extends StatelessWidget {
                         children: [
                           MachinePopupDetails(
                             iconImage: 'images/inputIcon.png',
-                            detailName: 'INPUT :',
+                            detailName: 'OUTPUT :',
                             child: Text(
-                              input,
+                              output,
                               style: GoogleFonts.inter(
                                   color: Colors.green,
                                   fontWeight: FontWeight.w500),
@@ -156,12 +194,7 @@ class MachineItemContainer extends StatelessWidget {
                           MachinePopupDetails(
                             iconImage: 'images/clockIcon.png',
                             detailName: 'DOWN TIME :',
-                            child: TimerContainer(
-                              border: false,
-                              startTime: DateTime.now(),
-                              isOffline: true,
-                              lineID: '',
-                            ),
+                            child: _buildDowntimeDisplay(),
                           ),
                         ],
                       ),

@@ -7,6 +7,7 @@ import 'package:gmcweb/Antolin_home/ui/MaintenancePage/maintenance_page.dart';
 import 'package:gmcweb/Constants/gmcColors.dart';
 import 'package:gmcweb/Constants/myutility.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LineMachineListPopup extends StatefulWidget {
   final Function(int, Widget) navigateToPage;
@@ -28,37 +29,55 @@ class _LineMachineListPopupState extends State<LineMachineListPopup> {
           children: [
             const PopupLineHeader(
                 line: 'Line 1', operation: 'Injection Moulding'),
-            const SizedBox(
-              height: 20,
-            ),
-            MachineItemContainer(
-              isOnline: true,
-              machineImage: 'images/dummyImage.png',
-              machineName: '1600 Ton Press',
-              operationNumber: 'OP 10.1',
-              input: '5700',
-              scrap: '34',
-              rework: '11',
-              maintenanceTap: () {
-                Navigator.of(context).pop();
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  print("Switching to Maintenance Tab...");
-                  widget.navigateToPage(3, const MaintenancePage());
-                });
-              },
-              reportTap: () {
-                Navigator.of(context).pop();
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  print("Switching to shyft Tab...");
-                  widget.navigateToPage(5, ShyftReport());
-                });
-              },
-              detailsTap: () {
-                Navigator.of(context).pop();
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  print("Switching to Details Tab...");
-                  widget.navigateToPage(4, const DetailsPage());
-                });
+            const SizedBox(height: 20),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('production')
+                  .orderBy('timestamp', descending: true)
+                  .limit(1)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return const CircularProgressIndicator();
+                }
+                final totalOut =
+                    snapshot.data?.docs.first.get('totalOut')?.toString() ??
+                        '0';
+                return StreamBuilder<DocumentSnapshot>(
+                    stream: FirebaseFirestore.instance
+                        .collection('systems')
+                        .doc('7uiqZnLD4iu5wRLzabpe')
+                        .snapshots(),
+                    builder: (context, systemSnapshot) {
+                      bool isOnline = false;
+                      if (systemSnapshot.hasData &&
+                          systemSnapshot.data!.exists) {
+                        // Get the online status directly from the document
+                        isOnline = systemSnapshot.data!.get('online') ?? false;
+                      }
+
+                      return MachineItemContainer(
+                        isOnline: isOnline,
+                        machineImage: 'images/dummyImage.png',
+                        machineName: '1600 Ton Press',
+                        operationNumber: 'OP 10.1',
+                        output: totalOut,
+                        scrap: '34',
+                        rework: '11',
+                        maintenanceTap: () {
+                          Navigator.of(context).pop();
+                          widget.navigateToPage(3, const MaintenancePage());
+                        },
+                        reportTap: () {
+                          Navigator.of(context).pop();
+                          widget.navigateToPage(5, const ShyftReport());
+                        },
+                        detailsTap: () {
+                          Navigator.of(context).pop();
+                          widget.navigateToPage(4, const DetailsPage());
+                        },
+                      );
+                    });
               },
             ),
             const Spacer(),
